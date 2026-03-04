@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- 🔵 LOGO -->
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="180dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 🏷 APP / INSTITUTE NAME -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 📦 LOGIN FORM -->
     <LinearLayout
         android:id="@+id/loginContainer"
         android:layout_width="0dp"
@@ -46,12 +43,14 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
+            android:id="@+id/etMobile"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"/>
+            android:hint="Mobile Number"
+            android:inputType="phone"/>
 
         <EditText
+            android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Password"
