@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Android 13+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- Android 12 and below (safe to keep) -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MMTradingZone"
+        android:usesCleartextTraffic="true">
+
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".BuyActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="true" />
+        <activity
+            android:name=".ImagePreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VideoPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadChoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ComingSoonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VideoPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FreeVideosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" /> <!-- 🔥 LAUNCHER SCREEN -->
+        <activity
+            android:name=".AuthChoiceActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

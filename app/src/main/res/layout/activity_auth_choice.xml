@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
+
+    <!-- APP TITLE -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABITI"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#1E88E5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp"/>
+
+    <!-- SUB TITLE -->
+    <TextView
+        android:id="@+id/tvSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome! Please continue"
+        android:textSize="16sp"
+        android:textColor="#555555"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- LOGIN BUTTON -->
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="LOGIN"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:backgroundTint="#1E88E5"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/tvSubTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <!-- REGISTER BUTTON -->
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="REGISTER"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:backgroundTint="#43A047"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

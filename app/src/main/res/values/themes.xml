@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <style name="Theme.MMTradingZone" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@android:color/holo_blue_dark</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+
+    </style>
+</resources>

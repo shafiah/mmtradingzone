@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 🔵 TOP APP BAR -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/holo_blue_dark"
+                android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+                app:title="MM Trading Zone"
+                app:titleCentered="true"
+                app:titleTextColor="@android:color/white"
+                app:navigationIcon="@drawable/ic_menu"
+                app:menu="@menu/top_bar_menu"/>
+        </com.google.android.material.appbar.AppBarLayout>
+        <!-- 📜 SCROLL CONTENT -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="72dp"
+            android:layout_marginBottom="56dp"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/screen_padding" >
+
+                <!-- WHAT DO YOU WANT TO LEARN -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What do you want to learn?"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- YOUTUBE + TELEGRAM -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp">
+
+                    <ImageView
+                        android:id="@+id/ivTopYoutube"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_youtube"
+                        android:contentDescription="YouTube"/>
+
+                    <Space
+                        android:layout_width="32dp"
+                        android:layout_height="1dp"/>
+
+                    <ImageView
+                        android:id="@+id/ivTopTelegram"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_telegram"
+                        android:contentDescription="Telegram"/>
+                </LinearLayout>
+
+                <!-- WHAT ARE YOU LOOKING FOR -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What are you looking for?"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- 2x2 GRID -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:useDefaultMargins="true">
+
+                    <!-- CARD 1 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/layoutAllCourse"
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_columnWeight="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_courses"
+                                android:contentDescription="All Courses"/>
+
+                            <TextView
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:text="All Courses"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- CARD 2 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardFileUpload"
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_columnWeight="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_basic"
+                                android:contentDescription="Trading Basics"/>
+
+                            <TextView
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:text="File Upload"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- CARD 3 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_columnWeight="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_advanced"
+                                android:contentDescription="Advance Strategy"/>
+
+                            <TextView
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:text="Advance Strategy"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- CARD 4 -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_columnWeight="1"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/ivGridInstagram"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_instagram"
+                                android:contentDescription="Instagram"/>
+
+                            <TextView
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:text="Instagram"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </GridLayout>
+
+                <!-- ⚠ NOTICE -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="@android:color/white">
+
+                    <!-- MARKET WARNING CONTAINER -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:elevation="6dp"
+                        android:radius="12dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- TEXT -->
+                            <TextView
+                                android:id="@+id/tvMarketWarning"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Basic course for beginners rs.499."
+                                android:textSize="16sp"
+                                android:textColor="@android:color/black"
+                                android:textStyle="bold" />
+
+                            <!-- BUY BUTTON -->
+                            <Button
+                                android:id="@+id/btnBuyNow"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Buy Now"
+                                android:layout_marginTop="16dp" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <!-- CONNECT WITH US -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Connect with us"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivBottomYoutube"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_youtube"
+                        android:contentDescription="YouTube"/>
+
+                    <Space
+                        android:layout_width="24dp"
+                        android:layout_height="1dp"/>
+
+                    <ImageView
+                        android:id="@+id/ivBottomInstagram"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_instagram"
+                        android:contentDescription="Instagram"/>
+
+                    <Space
+                        android:layout_width="24dp"
+                        android:layout_height="1dp"/>
+
+                    <ImageView
+                        android:id="@+id/ivBottomTelegram"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_telegram"
+                        android:contentDescription="Telegram"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- ⬇️ BOTTOM NAV -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="0dp"
+            android:paddingBottom="8dp"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/bottom_menu"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- 🧩 DRAWER CONTENT -->
+    <include
+
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        layout="@layout/drawer_layout"/>
+</androidx.drawerlayout.widget.DrawerLayout>
