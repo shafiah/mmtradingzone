@@ -34,9 +34,10 @@
 
             <!-- PROFILE -->
             <TextView
+                android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kaif"
+                android:text="User Name"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp"/>

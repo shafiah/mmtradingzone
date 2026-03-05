@@ -13,6 +13,9 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE mobile = :mobile AND password = :password LIMIT 1")
     User loginUser(String mobile, String password);
 
+   // @Query("SELECT * FROM users WHERE mobile = :mobile LIMIT 1")
+    //User checkMobileExists(String mobile);
+
     @Query("SELECT * FROM users WHERE mobile = :mobile LIMIT 1")
-    User checkMobileExists(String mobile);
+    User getUserByMobile(String mobile);
 }

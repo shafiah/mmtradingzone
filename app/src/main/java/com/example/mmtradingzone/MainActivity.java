@@ -4,6 +4,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.core.view.GravityCompat;
+
+import com.example.mmtradingzone.database.AppDatabase;
+import com.example.mmtradingzone.database.User;
+import com.example.mmtradingzone.database.UserDao;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 
@@ -16,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,11 +31,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Drawer user name show
+
+        TextView txtName = findViewById(R.id.txtName);
+
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        String mobile = prefs.getString("mobile", null);
+
+        if (mobile != null) {
+
+            AppDatabase db = AppDatabase.getInstance(this);
+            UserDao userDao = db.userDao();
+
+            User user = userDao.getUserByMobile(mobile);
+
+            if (user != null) {
+                txtName.setText(user.getName());
+            }
+        }
+
         Button btnLogout = findViewById(R.id.btnLogout);
 
         btnLogout.setOnClickListener(v -> {
 
-            SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+         //   SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.clear();
             editor.apply();

@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             // Check if mobile already exists (since email field nahi hai)
-            User existingUser = userDao.checkMobileExists(mobile);
+            User existingUser = userDao.getUserByMobile(mobile);
 
             if (existingUser != null) {
                 Toast.makeText(RegisterActivity.this,

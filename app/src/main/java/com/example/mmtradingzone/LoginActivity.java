@@ -23,12 +23,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        AppDatabase db = AppDatabase.getInstance(this);
-        UserDao userDao = db.userDao();
-
         etMobile = findViewById(R.id.etMobile);
         etPassword = findViewById(R.id.etPassword);
         btnLoginSubmit = findViewById(R.id.btnLoginSubmit);
+
+        AppDatabase db = AppDatabase.getInstance(this);
+        UserDao userDao = db.userDao();
 
         btnLoginSubmit.setOnClickListener(v -> {
 
@@ -36,9 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             if (mobile.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this,
-                        "All fields required",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enter Mobile and Password", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -46,27 +44,21 @@ public class LoginActivity extends AppCompatActivity {
 
             if (user != null) {
 
-                // Save login session
-                SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                // ✅ SAVE LOGIN SESSION
+                SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("isLoggedIn", true);
-                editor.putString("loggedInMobile", mobile);
+                editor.putString("mobile", mobile);
                 editor.apply();
 
-                Toast.makeText(LoginActivity.this,
-                        "Login Successful",
-                        Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
 
             } else {
-                Toast.makeText(LoginActivity.this,
-                        "Wrong mobile or password",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid Mobile or Password", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }
