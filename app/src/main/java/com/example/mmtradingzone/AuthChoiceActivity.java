@@ -7,7 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AuthChoiceActivity extends AppCompatActivity {
+import com.example.mmtradingzone.base.BaseActivity;
+
+public class AuthChoiceActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

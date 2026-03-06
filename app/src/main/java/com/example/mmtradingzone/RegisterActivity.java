@@ -9,11 +9,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.database.AppDatabase;
 import com.example.mmtradingzone.database.User;
 import com.example.mmtradingzone.database.UserDao;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     EditText etUsername, etMobile, etPassword;
     Button btnSignup;
