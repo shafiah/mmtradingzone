@@ -3,6 +3,7 @@ package com.example.mmtradingzone;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,15 +37,29 @@ public class LoginActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             if (mobile.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Enter Mobile and Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Enter Mobile and Password", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            User user = userDao.loginUser(mobile, password);
+            // get user by mobile
+            User user = userDao.getUserByMobile(mobile);
 
-            if (user != null) {
+            if (user != null && user.getPassword().equals(password)) {
 
-                // ✅ SAVE LOGIN SESSION
+                String deviceId = Settings.Secure.getString(
+                        getContentResolver(),
+                        Settings.Secure.ANDROID_ID
+                );
+
+                if (user.getDeviceId() != null && !user.getDeviceId().equals(deviceId)) {
+
+                    // new device login
+                    userDao.updateDeviceId(mobile, deviceId);
+
+                    Toast.makeText(LoginActivity.this, "Logged in from new device", Toast.LENGTH_SHORT).show();
+                }
+
+                // SAVE LOGIN SESSION
                 SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("isLoggedIn", true);
@@ -56,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
 
             } else {
-                Toast.makeText(this, "Invalid Mobile or Password", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(LoginActivity.this, "Invalid Mobile or Password", Toast.LENGTH_SHORT).show();
             }
 
         });

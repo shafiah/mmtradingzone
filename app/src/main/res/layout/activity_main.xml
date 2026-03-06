@@ -26,7 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/holo_blue_dark"
                 android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-                app:title="MM Trading Zone"
+                app:title="ABITI Trading Zone"
                 app:titleCentered="true"
                 app:titleTextColor="@android:color/white"
                 app:navigationIcon="@drawable/ic_menu"

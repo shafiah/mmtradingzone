@@ -18,4 +18,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM users WHERE mobile = :mobile LIMIT 1")
     User getUserByMobile(String mobile);
+
+    @Query("UPDATE users SET deviceId = :deviceId WHERE mobile = :mobile")
+    void updateDeviceId(String mobile, String deviceId);
 }

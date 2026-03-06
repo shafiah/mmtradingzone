@@ -1,5 +1,6 @@
 package com.example.mmtradingzone;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -54,9 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
+            @SuppressLint("HardwareIds")
+            String deviceId = android.provider.Settings.Secure.getString(
+                    getContentResolver(),
+                    android.provider.Settings.Secure.ANDROID_ID
+            );
 
             // Insert new user
-            User newUser = new User(username, mobile, password);
+            User newUser = new User(username, mobile, password,deviceId);
             userDao.registerUser(newUser);
 
             Toast.makeText(RegisterActivity.this,

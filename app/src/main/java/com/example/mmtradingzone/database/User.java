@@ -21,10 +21,13 @@ public class User {
 
     private String password;
 
-    public User(String name, String mobile, String password) {
+    private String deviceId;
+
+    public User(String name, String mobile, String password,String deviceId) {
         this.name = name;
         this.mobile = mobile;
         this.password = password;
+        this.deviceId = deviceId;
     }
 
     public int getId() { return id; }
@@ -33,4 +36,6 @@ public class User {
     public String getName() { return name; }
     public String getMobile() { return mobile; }
     public String getPassword() { return password; }
+
+    public String getDeviceId() {return  deviceId; }
 }
