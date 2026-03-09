@@ -44,7 +44,7 @@ public class PaymentActivity extends AppCompatActivity
 
         try {
             JSONObject options = new JSONObject();
-            options.put("name", "MM Trading Zone");
+            options.put("name", "ABITI Trading Zone");
             options.put("description", "Premium Plan");
             options.put("currency", "INR");
 

@@ -83,6 +83,7 @@ public class BuyActivity extends AppCompatActivity implements PaymentResultListe
             options.put("description", "Premium Trading Plan");
             options.put("currency", "INR");
             options.put("order_id", orderId);
+            options.put("amount",100);
 
             checkout.open(BuyActivity.this, options);
 
