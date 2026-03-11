@@ -63,7 +63,7 @@ public class RegisterActivity extends BaseActivity {
             );
 
             // API SERVICE
-            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
 
             UserRequest request = new UserRequest(
                     username,

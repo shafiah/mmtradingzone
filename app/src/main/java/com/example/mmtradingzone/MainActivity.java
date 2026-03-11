@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 Settings.Secure.ANDROID_ID
         );
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
 
         LoginRequest request = new LoginRequest(phone, password, deviceId);
 

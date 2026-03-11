@@ -34,7 +34,7 @@ public class BuyActivity extends AppCompatActivity implements PaymentResultListe
 
     private void createOrderFromBackend() {
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
 
         Call<Map<String, Object>> call = apiService.createOrder();
 
