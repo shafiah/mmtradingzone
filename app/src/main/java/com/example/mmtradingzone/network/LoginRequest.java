@@ -10,5 +10,8 @@ public class LoginRequest {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.deviceId = deviceId;
+
+
     }
+
 }

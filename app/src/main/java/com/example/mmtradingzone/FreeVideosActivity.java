@@ -12,11 +12,11 @@ public class FreeVideosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_free_videos);
 
         findViewById(R.id.video1).setOnClickListener(v ->
-                openPlayer("http://98.86.147.23/demo2.mp4")
+                openPlayer("http://18.206.151.182/demo2.mp4")
         );
 
         findViewById(R.id.video2).setOnClickListener(v ->
-                openPlayer("http://98.86.147.23/demo3.mp4")
+                openPlayer("http://18.206.151.182/demo3.mp4")
         );
     }
 

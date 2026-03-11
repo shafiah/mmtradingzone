@@ -8,9 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mmtradingzone.base.BaseActivity;
-import com.example.mmtradingzone.database.AppDatabase;
-import com.example.mmtradingzone.database.User;
-import com.example.mmtradingzone.database.UserDao;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.UserRequest;
@@ -30,11 +27,6 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Initialize DB
-        AppDatabase db = AppDatabase.getInstance(this);
-        UserDao userDao = db.userDao();
-
-        // Initialize Views
         etUsername = findViewById(R.id.etUsername);
         etMobile = findViewById(R.id.etMobile);
         etPassword = findViewById(R.id.etPassword);
@@ -48,6 +40,7 @@ public class RegisterActivity extends BaseActivity {
 
             // Empty field check
             if (username.isEmpty() || mobile.isEmpty() || password.isEmpty()) {
+
                 Toast.makeText(RegisterActivity.this,
                         "All fields required",
                         Toast.LENGTH_SHORT).show();
@@ -56,18 +49,9 @@ public class RegisterActivity extends BaseActivity {
 
             // Mobile validation
             if (!mobile.matches("[6-9][0-9]{9}")) {
+
                 etMobile.setError("Enter valid mobile number");
                 etMobile.requestFocus();
-                return;
-            }
-
-            // Check if mobile already exists in local DB
-            User existingUser = userDao.getUserByMobile(mobile);
-
-            if (existingUser != null) {
-                Toast.makeText(RegisterActivity.this,
-                        "User already registered with this mobile",
-                        Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -78,7 +62,7 @@ public class RegisterActivity extends BaseActivity {
                     android.provider.Settings.Secure.ANDROID_ID
             );
 
-            // 🔵 API SERVICE
+            // API SERVICE
             ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
             UserRequest request = new UserRequest(
@@ -94,11 +78,7 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
 
-                    if (response.isSuccessful()) {
-
-                        // Save in local DB also
-                        User newUser = new User(username, mobile, password, deviceId);
-                        userDao.registerUser(newUser);
+                    if (response.isSuccessful() && response.body() != null) {
 
                         Toast.makeText(RegisterActivity.this,
                                 "Registration Successful",
@@ -111,11 +91,34 @@ public class RegisterActivity extends BaseActivity {
                         startActivity(intent);
                         finish();
                     }
+
                     else {
 
-                        Toast.makeText(RegisterActivity.this,
-                                "Server Error",
-                                Toast.LENGTH_LONG).show();
+                        try {
+
+                            String errorMessage = response.errorBody().string();
+
+                            if (errorMessage.contains("already registered")) {
+
+                                Toast.makeText(RegisterActivity.this,
+                                        "User already registered with this mobile number",
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                            else {
+
+                                Toast.makeText(RegisterActivity.this,
+                                        "Server Error",
+                                        Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                        catch (Exception e) {
+
+                            Toast.makeText(RegisterActivity.this,
+                                    "Registration failed",
+                                    Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
 

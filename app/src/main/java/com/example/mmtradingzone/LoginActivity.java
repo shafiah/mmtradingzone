@@ -1,5 +1,6 @@
 package com.example.mmtradingzone;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,8 +22,9 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity {
 
     EditText etMobile, etPassword;
-
     Button btnLoginSubmit;
+
+    String deviceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,78 +35,107 @@ public class LoginActivity extends BaseActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLoginSubmit = findViewById(R.id.btnLoginSubmit);
 
-        btnLoginSubmit.setOnClickListener(v -> {
+        // DEVICE ID
+        deviceId = Settings.Secure.getString(
+                getContentResolver(),
+                Settings.Secure.ANDROID_ID
+        );
 
-            String mobile = etMobile.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
+        btnLoginSubmit.setOnClickListener(v -> loginUser());
+    }
 
-            if (mobile.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Enter Mobile and Password", Toast.LENGTH_SHORT).show();
-                return;
-            }
+    private void loginUser() {
 
-            // DEVICE ID
-            String deviceId = Settings.Secure.getString(
-                    getContentResolver(),
-                    Settings.Secure.ANDROID_ID
-            );
+        String mobile = etMobile.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
-            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        if (mobile.isEmpty() || password.isEmpty()) {
+            Toast.makeText(LoginActivity.this, "Enter Mobile and Password", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            LoginRequest request = new LoginRequest(
-                    mobile,
-                    password,
-                    deviceId
-            );
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
 
-            apiService.loginUser(request).enqueue(new Callback<LoginResponse>() {
+        LoginRequest request = new LoginRequest(
+                mobile,
+                password,
+                deviceId
+        );
 
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+        apiService.loginUser(request).enqueue(new Callback<LoginResponse>() {
 
-                    if (response.isSuccessful() && response.body() != null) {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-                        LoginResponse apiUser = response.body();
+                if (response.isSuccessful() && response.body() != null) {
 
-                       // Toast.makeText(LoginActivity.this, apiUser.getUserName(), Toast.LENGTH_LONG).show();
+                    LoginResponse apiUser = response.body();
 
-                        // SAVE SESSION
-                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putLong("LOGIN_VERSION",apiUser.getLoginVersion());
-                        editor.putString("PHONE",mobile);
-                        editor.putString("PASSWORD",password);
-                        editor.putBoolean("isLoggedIn", true);
-                        editor.putString("userName", apiUser.getUserName());
-                        editor.apply();
+                    // SAVE SESSION
+                    SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("PHONE", mobile);
+                    editor.putString("PASSWORD", password);
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.putString("userName", apiUser.getUserName());
+                    editor.apply();
+
+                    Toast.makeText(LoginActivity.this,
+                            "Login Successful",
+                            Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                } else {
+
+                    try {
+
+                        String errorMessage = response.errorBody().string();
+
+                        if (errorMessage.contains("device")) {
+
+                            showRegisterPopup();
+
+                        } else {
+
+                            Toast.makeText(LoginActivity.this,
+                                    "Invalid credentials",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
 
                         Toast.makeText(LoginActivity.this,
-                                "Login Successful",
-                                Toast.LENGTH_SHORT).show();
-
-
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-
-
-                    } else {
-
-                        Toast.makeText(LoginActivity.this,
-                                "Invalid credentials",
+                                "Login failed",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
 
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
 
-                    Toast.makeText(LoginActivity.this,
-                            "API Error: " + t.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-
+                Toast.makeText(LoginActivity.this,
+                        "API Error: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
         });
+    }
+
+    private void showRegisterPopup() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Device Not Registered")
+                .setMessage("This device isn't registered with this number. Please register device.")
+                .setPositiveButton("Register", (dialog, which) -> {
+
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }
