@@ -2,12 +2,31 @@ package com.example.mmtradingzone;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mmtradingzone.models.ResponseModel;
+import com.example.mmtradingzone.network.ApiClient;
+import com.example.mmtradingzone.network.ApiService;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class VideoPreviewActivity extends AppCompatActivity {
+
+    private Uri videoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,15 +34,123 @@ public class VideoPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video_preview);
 
         VideoView videoView = findViewById(R.id.videoView);
+        Button btnConfirm = findViewById(R.id.btnConfirm);
 
         String videoUriString = getIntent().getStringExtra("video_uri");
-        Uri videoUri = Uri.parse(videoUriString);
 
+        videoUri = Uri.parse(videoUriString);
+
+        // 🔹 Video Preview
         MediaController controller = new MediaController(this);
         controller.setAnchorView(videoView);
 
         videoView.setMediaController(controller);
         videoView.setVideoURI(videoUri);
         videoView.start();
+
+        // 🔹 Confirm Upload Button
+        btnConfirm.setOnClickListener(v -> {
+
+            if (videoUri != null) {
+
+                uploadVideo(videoUri);
+
+            } else {
+
+                Toast.makeText(this, "Video not selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // 🔹 Convert URI → FILE
+    private File getFileFromUri(Uri uri) {
+
+        File file = null;
+
+        try {
+
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+
+            String fileName = "upload_" + System.currentTimeMillis() + ".mp4";
+
+            file = new File(getCacheDir(), fileName);
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
+    // 🔹 Upload Video API
+    private void uploadVideo(Uri uri) {
+
+        try {
+
+            File file = getFileFromUri(uri);
+
+            if (file == null) {
+
+                Toast.makeText(this, "File conversion error", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            RequestBody requestFile =
+                    RequestBody.create(MediaType.parse("video/*"), file);
+
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+            ApiService apiService =
+                    ApiClient.getClient(this).create(ApiService.class);
+
+            Call<ResponseModel> call = apiService.uploadVideo(body);
+
+            call.enqueue(new Callback<ResponseModel>() {
+
+                @Override
+                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+
+                    if (response.isSuccessful()) {
+
+                        Toast.makeText(VideoPreviewActivity.this,
+                                "Upload Success",
+                                Toast.LENGTH_LONG).show();
+
+                    } else {
+
+                        Toast.makeText(VideoPreviewActivity.this,
+                                "Upload Failed",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseModel> call, Throwable t) {
+
+                    Toast.makeText(VideoPreviewActivity.this,
+                            "Error : " + t.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } catch (Exception e) {
+
+            Toast.makeText(this, "Upload Error", Toast.LENGTH_SHORT).show();
+        }
     }
 }

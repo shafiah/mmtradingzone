@@ -13,6 +13,7 @@ public class UploadVideoActivity extends AppCompatActivity {
 
     private static final int PICK_VIDEO_REQUEST = 101;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
