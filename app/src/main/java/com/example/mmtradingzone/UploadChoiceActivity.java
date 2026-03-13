@@ -15,6 +15,7 @@ public class UploadChoiceActivity extends AppCompatActivity {
 
         Button btnVideoUpload = findViewById(R.id.btnVideoUpload);
         Button btnImageUpload = findViewById(R.id.btnImageUpload);
+        Button btnUploadPdf = findViewById(R.id.btnUploadPdf);
 
         // 🎥 Video Upload
         btnVideoUpload.setOnClickListener(v -> {
@@ -30,6 +31,15 @@ public class UploadChoiceActivity extends AppCompatActivity {
             Intent intent = new Intent(
                     UploadChoiceActivity.this,
                     UploadImageActivity.class
+            );
+            startActivity(intent);
+        });
+
+        // 🖼 PDF Upload
+        btnUploadPdf.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    UploadChoiceActivity.this,
+                    UploadPdfActivity.class
             );
             startActivity(intent);
         });

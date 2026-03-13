@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PdfPreviewActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- PDF PREVIEW AREA -->
+
+        <ImageView
+            android:id="@+id/pdfImage"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:scaleType="fitCenter"
+            android:background="#eeeeee"/>
+
+        <!-- FILE NAME -->
+
+        <TextView
+            android:id="@+id/txtPdfName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PDF Name"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnConfirmUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm Upload" />
+
+        <!-- ===== UPLOAD PROGRESS BAR ===== -->
+
+        <ProgressBar
+            android:id="@+id/uploadProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:max="100"
+            android:progress="0"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/uploadPercentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

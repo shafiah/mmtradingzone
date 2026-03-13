@@ -10,6 +10,6 @@
         android:id="@+id/btnPickImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pick Image" />
+        android:text="Select Image from Gallery" />
 
 </LinearLayout>

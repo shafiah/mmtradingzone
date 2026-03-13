@@ -25,4 +25,12 @@ public interface ApiService {
     @Multipart
     @POST("file/vid/upload")
     Call<ResponseModel> uploadVideo(@Part MultipartBody.Part file);
+
+    @Multipart
+    @POST("file/img/upload")
+    Call<ResponseModel> uploadImage(@Part MultipartBody.Part file);
+
+    @Multipart
+    @POST("file/pdf/upload")
+    Call<ResponseModel> uploadPdf(@Part MultipartBody.Part file);
 }

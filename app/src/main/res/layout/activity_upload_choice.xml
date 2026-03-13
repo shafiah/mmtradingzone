@@ -59,8 +59,17 @@
             android:id="@+id/btnImageUpload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="upload Image"
+            android:text="Upload Image"
             android:layout_marginTop="16dp" />
+
+        <!-- IMAGE UPLOAD -->
+        <Button
+            android:id="@+id/btnUploadPdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload PDF"
+            android:layout_marginTop="16dp" />
+
 
     </LinearLayout>
 

@@ -8,7 +8,6 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,19 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MMTradingZone"
         android:usesCleartextTraffic="true">
-
-
+        <activity
+            android:name=".PdfPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadPdfActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".BuyActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTop"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ImagePreviewActivity"
             android:exported="false" />
@@ -71,7 +72,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".NotificationActivity"
             android:exported="false" />

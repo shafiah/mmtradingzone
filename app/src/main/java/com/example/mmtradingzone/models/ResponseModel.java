@@ -12,4 +12,12 @@ public class ResponseModel {
     public String getError() {
         return error;
     }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }

@@ -12,4 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="fitCenter" />
+
+    <!-- ✅ ADDED CONFIRM BUTTON -->
+    <Button
+        android:id="@+id/btnConfirmUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm and Upload"
+        android:layout_marginTop="20dp"/>
+
 </LinearLayout>
