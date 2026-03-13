@@ -24,7 +24,7 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public MediaType contentType() {
-        return MediaType.parse("application/pdf");
+        return MediaType.parse("application/octet-stream");
     }
 
     @Override

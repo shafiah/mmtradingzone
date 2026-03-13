@@ -2,8 +2,11 @@ package com.example.mmtradingzone;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View; // ⭐ ADDED FOR VISIBILITY CONTROL
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -12,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mmtradingzone.models.ResponseModel;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
+import com.example.mmtradingzone.utils.ProgressRequestBody; // ⭐ ADDED FOR UPLOAD PROGRESS
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,6 +32,10 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
     private Uri videoUri;
 
+    // ⭐ ADDED FOR VIDEO UPLOAD PROGRESS
+    ProgressBar uploadProgressBar;
+    TextView uploadPercentText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +43,10 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
         VideoView videoView = findViewById(R.id.videoView);
         Button btnConfirm = findViewById(R.id.btnConfirm);
+
+        // ⭐ ADDED FOR VIDEO PROGRESS UI
+        uploadProgressBar = findViewById(R.id.uploadProgressBar);
+        uploadPercentText = findViewById(R.id.uploadPercentText);
 
         String videoUriString = getIntent().getStringExtra("video_uri");
 
@@ -109,11 +121,29 @@ public class VideoPreviewActivity extends AppCompatActivity {
                 return;
             }
 
+            // ⭐ ADDED: SHOW PROGRESS BAR
+            uploadProgressBar.setVisibility(View.VISIBLE);
+            uploadPercentText.setVisibility(View.VISIBLE);
+
+            // ⭐ ADDED: PROGRESS REQUEST BODY
+            ProgressRequestBody progressRequestBody =
+                    new ProgressRequestBody(file, percentage -> {
+
+                        runOnUiThread(() -> {
+
+                            uploadProgressBar.setProgress(percentage);
+                            uploadPercentText.setText(percentage + "%");
+
+                        });
+
+                    });
+
+            // ⭐ ADDED: USE PROGRESS BODY INSTEAD OF NORMAL REQUEST BODY
             RequestBody requestFile =
                     RequestBody.create(MediaType.parse("video/*"), file);
 
             MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                    MultipartBody.Part.createFormData("file", file.getName(), progressRequestBody);
 
             ApiService apiService =
                     ApiClient.getClient(this).create(ApiService.class);
@@ -124,6 +154,10 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+
+                    // ⭐ ADDED: HIDE PROGRESS BAR
+                    uploadProgressBar.setVisibility(View.GONE);
+                    uploadPercentText.setVisibility(View.GONE);
 
                     if (response.isSuccessful()) {
 
@@ -141,6 +175,10 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseModel> call, Throwable t) {
+
+                    // ⭐ ADDED: HIDE PROGRESS BAR
+                    uploadProgressBar.setVisibility(View.GONE);
+                    uploadPercentText.setVisibility(View.GONE);
 
                     Toast.makeText(VideoPreviewActivity.this,
                             "Error : " + t.getMessage(),

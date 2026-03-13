@@ -26,6 +26,21 @@
             android:text="Confirm and Upload"
             android:layout_margin="16dp"/>
 
+        <ProgressBar
+            android:id="@+id/uploadProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:max="100"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/uploadPercentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
