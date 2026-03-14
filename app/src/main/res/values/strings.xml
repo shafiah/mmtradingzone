@@ -13,6 +13,11 @@
     <string name="trading_basics">Trading Basics</string>
     <string name="advance_strategy">Advance Strategy</string>
 
+    <string name="video_name">Video Name</string>
+    <string name="free_videos">Free Videos</string>
+    <string name="introduction_video">Introduction Video</string>
+    <string name="basics_video">Basics Video</string>
+
     <string name="profile">Profile</string>
     <string name="user_name">Kaif</string>
     <string name="org_code">Organization Code QVOOYD</string>

@@ -2,14 +2,17 @@ package com.example.mmtradingzone.network;
 
 import com.example.mmtradingzone.models.ResponseModel;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -33,4 +36,10 @@ public interface ApiService {
     @Multipart
     @POST("file/pdf/upload")
     Call<ResponseModel> uploadPdf(@Part MultipartBody.Part file);
+
+    @GET("/file/get/list/{fileType}/{phoneNumber}")
+    Call<List<FilesModel>> getVideoList(
+            @Path("fileType") String fileType,
+            @Path("phoneNumber") String phoneNumber
+    );
 }
