@@ -108,7 +108,7 @@ public class RegisterActivity extends BaseActivity {
                             else {
 
                                 Toast.makeText(RegisterActivity.this,
-                                        "Server Error",
+                                        "User already registered with this mobile number",
                                         Toast.LENGTH_LONG).show();
                             }
 

@@ -1,5 +1,6 @@
 package com.example.mmtradingzone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -79,7 +80,7 @@ public class BuyActivity extends AppCompatActivity implements PaymentResultListe
         try {
             JSONObject options = new JSONObject();
 
-            options.put("name", "MM Trading Zone");
+            options.put("name", "ABITI Trading Zone");
             options.put("description", "Premium Trading Plan");
             options.put("currency", "INR");
             options.put("order_id", orderId);
@@ -97,6 +98,13 @@ public class BuyActivity extends AppCompatActivity implements PaymentResultListe
         Toast.makeText(this,
                 "Payment Successful",
                 Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(BuyActivity.this, PaidVideoListActivity.class);
+        intent.putExtra("paymentSuccess", true);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(intent);
+        finish();
     }
 
     @Override

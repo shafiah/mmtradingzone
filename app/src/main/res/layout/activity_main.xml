@@ -18,13 +18,14 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:elevation="6dp">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/holo_blue_dark"
+                android:background="#5E35B1"
                 android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
                 app:title="ABITI Trading Zone"
                 app:titleCentered="true"
@@ -39,6 +40,7 @@
             android:paddingBottom="72dp"
             android:layout_marginBottom="56dp"
             android:fillViewport="true"
+            android:background="#ECE7F6"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -49,11 +51,12 @@
 
                 <!-- WHAT DO YOU WANT TO LEARN -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="What do you want to learn?"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:gravity="center"
                     android:layout_marginBottom="12dp"/>
 
                 <!-- YOUTUBE + TELEGRAM -->
@@ -85,11 +88,12 @@
 
                 <!-- WHAT ARE YOU LOOKING FOR -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="What are you looking for?"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    android:gravity="center"
                     android:layout_marginBottom="12dp"/>
 
                 <!-- 2x2 GRID -->
@@ -246,7 +250,8 @@
                                 android:text="Basic course for beginners rs.499."
                                 android:textSize="16sp"
                                 android:textColor="@android:color/black"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:gravity="center"/>
 
                             <!-- BUY BUTTON -->
                             <Button
@@ -263,19 +268,21 @@
 
                 <!-- CONNECT WITH US -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Connect with us"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginTop="24dp"
+                    android:gravity="center"
                     android:layout_marginBottom="12dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="40dp">
 
                     <ImageView
                         android:id="@+id/ivBottomYoutube"
@@ -325,6 +332,7 @@
             android:layout_marginBottom="0dp"
             android:paddingBottom="8dp"
             android:fitsSystemWindows="true"
+
             app:menu="@menu/bottom_menu"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

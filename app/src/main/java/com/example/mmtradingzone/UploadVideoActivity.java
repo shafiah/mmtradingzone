@@ -3,7 +3,6 @@ package com.example.mmtradingzone;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ public class UploadVideoActivity extends AppCompatActivity {
 
     private static final int PICK_VIDEO_REQUEST = 101;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,14 +19,18 @@ public class UploadVideoActivity extends AppCompatActivity {
 
         Button btnPickVideo = findViewById(R.id.btnPickVideo);
 
-        // 🔹 STEP 1: Open Gallery
+        // 🔹 Open Gallery / Files chooser
         btnPickVideo.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PICK_VIDEO_REQUEST);
+
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("video/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+            startActivityForResult(Intent.createChooser(intent, "Select Video"), PICK_VIDEO_REQUEST);
         });
     }
 
-    // 🔹 STEP 2: Receive selected video
+    // 🔹 Receive selected video
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -37,7 +39,6 @@ public class UploadVideoActivity extends AppCompatActivity {
 
             Uri videoUri = data.getData();
 
-            // 🔹 STEP 3: Send video to preview page
             Intent intent = new Intent(UploadVideoActivity.this, VideoPreviewActivity.class);
             intent.putExtra("video_uri", videoUri.toString());
             startActivity(intent);

@@ -5,60 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ECE7F6"
-    android:padding="20dp">
-
-    <!-- Top Space -->
+    android:padding="20dp"
+    android:background="#ECE7F6">
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="40dp"/>
 
-    <!-- Heading -->
-
     <TextView
-        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload Video"
+        android:text="Premium Videos"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#3F2A78"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Container -->
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:padding="24dp">
-
-            <!-- Select Video Button -->
-
-            <Button
-                android:id="@+id/btnPickVideo"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Select Video from Gallery"/>
-
-            <!-- Selected Video Text -->
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <TextView
-                android:id="@+id/tvSelectedVideo"
+                android:id="@+id/txtNoVideos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No video selected"
-                android:textSize="14sp"
-                android:layout_marginTop="20dp"
-                android:textColor="#555555"/>
+                android:text="No premium videos available right now"
+                android:textSize="18sp"
+                android:textColor="#555555"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btnBuyPremium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buy Premium"
+                android:layout_marginTop="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPremiumVideos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 

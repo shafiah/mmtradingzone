@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
@@ -19,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText etMobile, etPassword;
     Button btnLoginSubmit;
@@ -94,18 +97,27 @@ public class LoginActivity extends BaseActivity {
                     try {
 
                         String errorMessage = response.errorBody().string();
+                        Log.d("SERVER_RESPONSE",errorMessage);
+                        Log.d("HTTP_CODE",String.valueOf(response.code()));
+
+                        errorMessage = errorMessage.toLowerCase();
 
                         if (errorMessage.contains("device")) {
 
                             showRegisterPopup();
 
-                        } else {
+                        } else if (errorMessage.contains("invalid")) {
 
                             Toast.makeText(LoginActivity.this,
                                     "Invalid credentials",
                                     Toast.LENGTH_SHORT).show();
-                        }
 
+                        } else {
+
+                            Toast.makeText(LoginActivity.this,
+                                    errorMessage,
+                                    Toast.LENGTH_LONG).show();
+                        }
                     } catch (Exception e) {
 
                         Toast.makeText(LoginActivity.this,

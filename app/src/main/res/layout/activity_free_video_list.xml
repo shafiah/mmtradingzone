@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#ECE7F6"
+    android:orientation="vertical"
     android:padding="20dp">
 
-    <!-- Top Space -->
+    <!-- Space from top -->
 
     <Space
         android:layout_width="match_parent"
@@ -19,36 +19,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload Image"
+        android:text="Enjoy Your Free Videos"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#3F2A78"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Container -->
+    <!-- Container Card -->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp">
+        app:cardElevation="8dp"
+        android:background="#FFFFFF">
 
-        <LinearLayout
+        <!-- Scrollable List -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="24dp">
-
-            <!-- Button -->
-
-            <Button
-                android:id="@+id/btnPickImage"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Select Image from Gallery"/>
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:scrollbars="vertical"/>
 
     </androidx.cardview.widget.CardView>
 

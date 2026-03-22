@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.R;
@@ -25,6 +27,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         this.videoList = videoList;
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -34,37 +37,43 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         FilesModel video = videoList.get(position);
 
-        holder.txtVideoName.setText(video.getFileName());
+        String title = "Lesson " + (position + 1);
+        holder.txtVideoName.setText(title);
+
+        String videoUrl = "http://18.206.151.182:8085/vid/" + video.getFileName();
 
         holder.itemView.setOnClickListener(v -> {
 
             Intent intent = new Intent(context, VideoPlayerActivity.class);
-
-            intent.putExtra("video_url",
-                    "http://18.206.151.182/vid/" + video.getFileName());
-
+            intent.putExtra("video_url", videoUrl);
             context.startActivity(intent);
+
         });
     }
-
     @Override
     public int getItemCount() {
         return videoList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    // 👇 यही class add करनी है
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtVideoName;
+        ImageView imgThumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             txtVideoName = itemView.findViewById(R.id.txtVideoName);
+            imgThumbnail = itemView.findViewById(R.id.imgThumbnail);
         }
     }
+
 }

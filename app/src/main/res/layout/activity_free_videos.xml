@@ -1,53 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FreeVideosActivity">
+    android:background="#ECE7F6"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="20dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <!-- Welcome Heading -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to ABITI"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"/>
+
+    <!-- Main Container -->
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
 
-        <TextView
-            android:text="Free Videos"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/video1"
-            android:text="▶ Introduction Video"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:background="#EEEEEE"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <TextView
-            android:id="@+id/video2"
-            android:text="▶ Basics Video"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:layout_marginTop="12dp"
-            android:background="#EEEEEE"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <!-- Introduction Video -->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/video1"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#F0F0F0"
+                android:text="▶ Introduction Video"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:layout_marginBottom="16dp"/>
 
+            <!-- Basics Video -->
 
+            <TextView
+                android:id="@+id/video2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#F0F0F0"
+                android:text="▶ Basics Video"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:layout_marginBottom="30dp"/>
 
-    </LinearLayout>
+            <!-- Free Videos Button -->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btnFreeVideos"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Free Videos"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Paid Videos Button -->
+
+            <Button
+                android:id="@+id/btnPaidVideos"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Paid Videos"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
