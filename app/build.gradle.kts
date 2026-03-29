@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
+    implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")
     implementation ("com.github.bumptech.glide:glide:4.16.0")

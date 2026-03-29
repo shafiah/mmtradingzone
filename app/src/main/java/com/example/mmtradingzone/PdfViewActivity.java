@@ -2,6 +2,9 @@ package com.example.mmtradingzone;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +23,11 @@ public class PdfViewActivity extends AppCompatActivity {
 
     PDFView pdfView;
 
-    // ⭐ NEW: Background thread (AsyncTask removed)
+    // ⭐ NEW: Loader UI
+    ProgressBar progressBar;
+    TextView loadingText;
+
+    // ⭐ Background thread
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
@@ -30,16 +37,33 @@ public class PdfViewActivity extends AppCompatActivity {
 
         pdfView = findViewById(R.id.pdfView);
 
+        // ⭐ NEW
+        progressBar = findViewById(R.id.progressBar);
+        loadingText = findViewById(R.id.loadingText);
+
         String pdfUrl = getIntent().getStringExtra("pdf_url");
 
         if (pdfUrl != null) {
+            showLoader(); // ⭐ NEW
             downloadAndDisplayPdf(pdfUrl);
         } else {
             Toast.makeText(this, "Invalid PDF URL", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // ⭐ NEW METHOD (FAST + SAFE)
+    // ⭐ SHOW LOADER
+    private void showLoader() {
+        progressBar.setVisibility(View.VISIBLE);
+        loadingText.setVisibility(View.VISIBLE);
+    }
+
+    // ⭐ HIDE LOADER
+    private void hideLoader() {
+        progressBar.setVisibility(View.GONE);
+        loadingText.setVisibility(View.GONE);
+    }
+
+    // ⭐ MAIN METHOD
     private void downloadAndDisplayPdf(String pdfUrl) {
 
         executorService.execute(() -> {
@@ -47,6 +71,8 @@ public class PdfViewActivity extends AppCompatActivity {
             File file = downloadPdf(pdfUrl);
 
             runOnUiThread(() -> {
+
+                hideLoader(); // ⭐ NEW
 
                 if (file != null && file.exists()) {
 
@@ -69,7 +95,7 @@ public class PdfViewActivity extends AppCompatActivity {
         });
     }
 
-    // ⭐ NEW: Optimized download method
+    // ⭐ FAST DOWNLOAD METHOD
     private File downloadPdf(String pdfUrl) {
 
         HttpURLConnection connection = null;
@@ -78,8 +104,8 @@ public class PdfViewActivity extends AppCompatActivity {
             URL url = new URL(pdfUrl);
 
             connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(10000); // ⭐ NEW
-            connection.setReadTimeout(10000);    // ⭐ NEW
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
             connection.connect();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -88,13 +114,13 @@ public class PdfViewActivity extends AppCompatActivity {
 
             InputStream input = connection.getInputStream();
 
-            // ⭐ NEW: unique file name (no overwrite issue)
+            // ⭐ UNIQUE FILE NAME (no overwrite)
             File file = new File(getCacheDir(),
                     "pdf_" + System.currentTimeMillis() + ".pdf");
 
             FileOutputStream output = new FileOutputStream(file);
 
-            byte[] buffer = new byte[8192]; // ⭐ bigger buffer = faster
+            byte[] buffer = new byte[8192]; // ⭐ FAST BUFFER
             int count;
 
             while ((count = input.read(buffer)) != -1) {
@@ -120,6 +146,6 @@ public class PdfViewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        executorService.shutdown(); // ⭐ cleanup
+        executorService.shutdown();
     }
 }
