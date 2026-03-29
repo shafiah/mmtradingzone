@@ -8,33 +8,53 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:gravity="center_vertical">
+        android:padding="10dp">
 
-        <!-- Thumbnail -->
-
-        <ImageView
-            android:id="@+id/imgThumbnail"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_media_play"/>
-
-        <!-- Video Title -->
-
-        <TextView
-            android:id="@+id/txtVideoName"
+        <!-- LEFT SIDE CONTENT -->
+        <LinearLayout
+            android:id="@+id/leftContent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lesson 1"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginStart="15dp"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    </LinearLayout>
+            <!-- Thumbnail -->
+            <ImageView
+                android:id="@+id/imgThumbnail"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_media_play"
+                android:contentDescription="@string/video_thumbnail_desc"/>
+
+            <!-- Video Title -->
+            <TextView
+                android:id="@+id/txtVideoName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/video_title_placeholder"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="15dp"/>
+        </LinearLayout>
+
+        <!-- DELETE ICON -->
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:tint="@android:color/holo_red_dark"
+            android:padding="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/delete_video_desc"/>
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

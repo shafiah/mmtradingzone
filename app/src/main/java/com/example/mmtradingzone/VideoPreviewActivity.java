@@ -2,20 +2,22 @@ package com.example.mmtradingzone;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View; // ⭐ ADDED FOR VISIBILITY CONTROL
+import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+import android.widget.RadioButton;
+import android.widget.EditText; // ⭐ NEW IMPORT
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mmtradingzone.models.ResponseModel;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
-import com.example.mmtradingzone.utils.ProgressRequestBody; // ⭐ ADDED FOR UPLOAD PROGRESS
+import com.example.mmtradingzone.utils.ProgressRequestBody;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,19 +34,25 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
     private Uri videoUri;
 
-    // ⭐ ADDED FOR VIDEO UPLOAD PROGRESS
     ProgressBar uploadProgressBar;
     TextView uploadPercentText;
+    RadioButton radioFree, radioPremium;
+
+    EditText etVideoTitle; // ⭐ NEW VARIABLE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_preview);
 
+        radioFree = findViewById(R.id.radioFree);
+        radioPremium = findViewById(R.id.radioPremium);
+
+        etVideoTitle = findViewById(R.id.etVideoTitle); // ⭐ NEW INIT
+
         VideoView videoView = findViewById(R.id.videoView);
         Button btnConfirm = findViewById(R.id.btnConfirm);
 
-        // ⭐ ADDED FOR VIDEO PROGRESS UI
         uploadProgressBar = findViewById(R.id.uploadProgressBar);
         uploadPercentText = findViewById(R.id.uploadPercentText);
 
@@ -65,10 +73,29 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
             if (videoUri != null) {
 
+                // ⭐ NEW: GET TITLE
+                String title = etVideoTitle.getText().toString().trim();
+
+                if (title.isEmpty()) {
+                    etVideoTitle.setError("Enter video title");
+                    etVideoTitle.requestFocus();
+                    return;
+                }
+
+                // ⭐ EXISTING CODE
+                String videoType = "FREE";
+                if (radioPremium.isChecked()) {
+                    videoType = "PREMIUM";
+                }
+
+                Toast.makeText(this,
+                        "Title: " + title + "\nType: " + videoType,
+                        Toast.LENGTH_SHORT).show();
+
+                // 🔥 NOTE: ABHI API ME TITLE NAHI JA RAHA (BAAD ME ADD KARENGE)
                 uploadVideo(videoUri);
 
             } else {
-
                 Toast.makeText(this, "Video not selected", Toast.LENGTH_SHORT).show();
             }
         });
@@ -93,7 +120,6 @@ public class VideoPreviewActivity extends AppCompatActivity {
             int bytesRead;
 
             while ((bytesRead = inputStream.read(buffer)) != -1) {
-
                 outputStream.write(buffer, 0, bytesRead);
             }
 
@@ -101,7 +127,6 @@ public class VideoPreviewActivity extends AppCompatActivity {
             inputStream.close();
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
 
@@ -114,48 +139,51 @@ public class VideoPreviewActivity extends AppCompatActivity {
         try {
 
             File file = getFileFromUri(uri);
+            boolean isPaid = radioPremium.isChecked();
 
             if (file == null) {
-
                 Toast.makeText(this, "File conversion error", Toast.LENGTH_SHORT).show();
                 return;
             }
+            String title = etVideoTitle.getText().toString().trim();
 
-            // ⭐ ADDED: SHOW PROGRESS BAR
+            RequestBody titleBody =
+                    RequestBody.create(
+                            MediaType.parse("text/plain"),
+                            title
+                    );
+
             uploadProgressBar.setVisibility(View.VISIBLE);
             uploadPercentText.setVisibility(View.VISIBLE);
 
-            // ⭐ ADDED: PROGRESS REQUEST BODY
             ProgressRequestBody progressRequestBody =
                     new ProgressRequestBody(file, percentage -> {
 
                         runOnUiThread(() -> {
-
                             uploadProgressBar.setProgress(percentage);
                             uploadPercentText.setText(percentage + "%");
-
                         });
 
                     });
 
-            // ⭐ ADDED: USE PROGRESS BODY INSTEAD OF NORMAL REQUEST BODY
-            RequestBody requestFile =
-                    RequestBody.create(MediaType.parse("video/*"), file);
-
             MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("file", file.getName(), progressRequestBody);
+                    MultipartBody.Part.createFormData(
+                            "file",
+                            file.getName(),
+                            progressRequestBody
+                    );
 
             ApiService apiService =
                     ApiClient.getClient(this).create(ApiService.class);
 
-            Call<ResponseModel> call = apiService.uploadVideo(body);
+            Call<ResponseModel> call =
+                    apiService.uploadVideo(body, isPaid, titleBody);
 
             call.enqueue(new Callback<ResponseModel>() {
 
                 @Override
                 public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
 
-                    // ⭐ ADDED: HIDE PROGRESS BAR
                     uploadProgressBar.setVisibility(View.GONE);
                     uploadPercentText.setVisibility(View.GONE);
 
@@ -176,7 +204,6 @@ public class VideoPreviewActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<ResponseModel> call, Throwable t) {
 
-                    // ⭐ ADDED: HIDE PROGRESS BAR
                     uploadProgressBar.setVisibility(View.GONE);
                     uploadPercentText.setVisibility(View.GONE);
 
@@ -188,7 +215,9 @@ public class VideoPreviewActivity extends AppCompatActivity {
 
         } catch (Exception e) {
 
-            Toast.makeText(this, "Upload Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Upload Error",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

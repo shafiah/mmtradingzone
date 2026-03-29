@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.mmtradingzone.ImageViewActivity;
 import com.example.mmtradingzone.R;
-import com.example.mmtradingzone.VideoPlayerActivity;
 import com.example.mmtradingzone.network.ApiClient; // ⭐ NEW
 import com.example.mmtradingzone.network.ApiService; // ⭐ NEW
 import com.example.mmtradingzone.network.FilesModel;
@@ -26,75 +26,80 @@ import retrofit2.Call; // ⭐ NEW
 import retrofit2.Callback; // ⭐ NEW
 import retrofit2.Response; // ⭐ NEW
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
-    List<FilesModel> videoList;
     Context context;
+    List<FilesModel> imageList;
 
-    public VideoAdapter(Context context, List<FilesModel> videoList) {
+    public ImageAdapter(Context context, List<FilesModel> imageList) {
         this.context = context;
-        this.videoList = videoList;
+        this.imageList = imageList;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.item_video, parent, false);
+                .inflate(R.layout.item_image, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
-        FilesModel video = videoList.get(position);
+        FilesModel image = imageList.get(position);
 
-        // ⭐ TITLE (UNCHANGED)
-        if (video.getTitle() != null && !video.getTitle().isEmpty()) {
-            holder.txtVideoName.setText(video.getTitle());
+        String imageUrl = "http://18.206.151.182:8085/img/" + image.getFileName();
+
+        // 🔥 EXISTING: Glide image load (UNCHANGED)
+        Glide.with(context)
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.imageView);
+
+        // 🔥 EXISTING: Title (UNCHANGED)
+        String title = image.getTitle();
+
+        if (title != null && !title.isEmpty()) {
+            holder.txtTitle.setText(title);
         } else {
-            holder.txtVideoName.setText("No Title");
+            holder.txtTitle.setText("Image " + (position + 1));
         }
 
-        // 🔥 VIDEO URL
-        String videoUrl = "http://18.206.151.182:8085/vid/" + video.getFileName();
-
-        // ================================
-        // ✅ 1. ITEM CLICK → VIDEO PLAY (UNCHANGED)
-        // ================================
+        // =====================================================
+        // ✅ CLICK → OPEN IMAGE (UNCHANGED)
+        // =====================================================
         holder.itemView.setOnClickListener(v -> {
 
-            Intent intent = new Intent(context, VideoPlayerActivity.class);
-            intent.putExtra("video_url", videoUrl);
+            Intent intent = new Intent(context, ImageViewActivity.class);
+            intent.putExtra("image_url", imageUrl);
             context.startActivity(intent);
 
         });
 
-        // ================================
-        // ⭐ 2. DELETE CLICK → FINAL API
-        // ================================
+        // =====================================================
+        // ⭐ DELETE BUTTON CLICK (FINAL API INTEGRATION)
+        // =====================================================
         holder.btnDelete.setOnClickListener(v -> {
-
-            v.setClickable(true);
-            v.setFocusable(true);
 
             int pos = holder.getBindingAdapterPosition(); // ⭐ SAFE POSITION
             if (pos == RecyclerView.NO_POSITION) return;
 
-            FilesModel selectedVideo = videoList.get(pos);
+            FilesModel selectedImage = imageList.get(pos);
 
             new AlertDialog.Builder(context)
-                    .setTitle("Delete Video")
+                    .setTitle("Delete Image")
                     .setMessage(context.getString(R.string.delete_confirm))
                     .setPositiveButton(context.getString(R.string.yes), (dialog, which) -> {
 
+                        // ⭐ CALL DELETE API
                         ApiService apiService =
                                 ApiClient.getClient(context).create(ApiService.class);
 
                         Call<ResponseBody> call =
-                                apiService.deleteFile(selectedVideo.getId());
+                                apiService.deleteFile(selectedImage.getId());
 
                         call.enqueue(new Callback<ResponseBody>() {
 
@@ -104,7 +109,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                 if (response.isSuccessful() && response.body() != null) {
 
                                     try {
-                                        String msg = response.body().string();
+                                        String msg = response.body().string(); // ⭐ backend message
 
                                         Toast.makeText(context,
                                                 msg,
@@ -116,10 +121,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                                 Toast.LENGTH_SHORT).show();
                                     }
 
-                                    // ⭐ REMOVE ITEM + REFRESH LIST
+                                    // ⭐ REMOVE ITEM + REFRESH LIST (REAL TIME)
                                     int currentPos = holder.getBindingAdapterPosition();
                                     if (currentPos != RecyclerView.NO_POSITION) {
-                                        videoList.remove(currentPos);
+                                        imageList.remove(currentPos);
                                         notifyItemRemoved(currentPos);
                                     }
 
@@ -149,23 +154,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return videoList.size();
+        return imageList.size();
     }
 
-    // ================================
-    // ✅ VIEW HOLDER (PERFORMANCE FIX)
-    // ================================
+    // ⭐ PERFORMANCE IMPROVEMENT (STATIC)
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtVideoName;
-        ImageView imgThumbnail;
+        ImageView imageView;
+        TextView txtTitle;
         ImageView btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtVideoName = itemView.findViewById(R.id.txtVideoName);
-            imgThumbnail = itemView.findViewById(R.id.imgThumbnail);
+            imageView = itemView.findViewById(R.id.imageView);
+            txtTitle = itemView.findViewById(R.id.txtTitle);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }

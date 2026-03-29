@@ -3,98 +3,96 @@ package com.example.mmtradingzone.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.R;
-import com.example.mmtradingzone.VideoPlayerActivity;
-import com.example.mmtradingzone.network.ApiClient; // ⭐ NEW
-import com.example.mmtradingzone.network.ApiService; // ⭐ NEW
+import com.example.mmtradingzone.PdfViewActivity;
+import com.example.mmtradingzone.network.ApiClient;
+import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
 
 import java.util.List;
 
-import okhttp3.ResponseBody; // ⭐ NEW
-import retrofit2.Call; // ⭐ NEW
-import retrofit2.Callback; // ⭐ NEW
-import retrofit2.Response; // ⭐ NEW
+import okhttp3.ResponseBody; // ⭐ NEW (fix for JSON error)
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
+public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
 
-    List<FilesModel> videoList;
     Context context;
+    List<FilesModel> pdfList;
 
-    public VideoAdapter(Context context, List<FilesModel> videoList) {
+    public PdfAdapter(Context context, List<FilesModel> pdfList) {
         this.context = context;
-        this.videoList = videoList;
+        this.pdfList = pdfList;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.item_video, parent, false);
+                .inflate(R.layout.item_pdf, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
-        FilesModel video = videoList.get(position);
+        FilesModel pdf = pdfList.get(position);
 
-        // ⭐ TITLE (UNCHANGED)
-        if (video.getTitle() != null && !video.getTitle().isEmpty()) {
-            holder.txtVideoName.setText(video.getTitle());
+        // ⭐ TITLE SHOW
+        if (pdf.getTitle() != null && !pdf.getTitle().isEmpty()) {
+            holder.txtPdfName.setText(pdf.getTitle());
         } else {
-            holder.txtVideoName.setText("No Title");
+            holder.txtPdfName.setText("PDF " + (position + 1));
         }
 
-        // 🔥 VIDEO URL
-        String videoUrl = "http://18.206.151.182:8085/vid/" + video.getFileName();
+        String pdfUrl = "http://18.206.151.182:8085/pdf/" + pdf.getFileName();
 
-        // ================================
-        // ✅ 1. ITEM CLICK → VIDEO PLAY (UNCHANGED)
-        // ================================
+        Log.d("PDF_DEBUG", "PDF URL: " + pdfUrl);
+
+        // =====================================================
+        // ✅ OPEN PDF
+        // =====================================================
         holder.itemView.setOnClickListener(v -> {
 
-            Intent intent = new Intent(context, VideoPlayerActivity.class);
-            intent.putExtra("video_url", videoUrl);
-            context.startActivity(intent);
+            Intent intent = new Intent(context, PdfViewActivity.class);
+            intent.putExtra("pdf_url", pdfUrl);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            context.startActivity(intent);
         });
 
-        // ================================
-        // ⭐ 2. DELETE CLICK → FINAL API
-        // ================================
+        // =====================================================
+        // ⭐ DELETE BUTTON (FINAL FIX)
+        // =====================================================
         holder.btnDelete.setOnClickListener(v -> {
 
-            v.setClickable(true);
-            v.setFocusable(true);
-
-            int pos = holder.getBindingAdapterPosition(); // ⭐ SAFE POSITION
+            int pos = holder.getBindingAdapterPosition();
             if (pos == RecyclerView.NO_POSITION) return;
 
-            FilesModel selectedVideo = videoList.get(pos);
+            FilesModel selectedPdf = pdfList.get(pos);
 
             new AlertDialog.Builder(context)
-                    .setTitle("Delete Video")
+                    .setTitle("Delete PDF")
                     .setMessage(context.getString(R.string.delete_confirm))
                     .setPositiveButton(context.getString(R.string.yes), (dialog, which) -> {
 
                         ApiService apiService =
                                 ApiClient.getClient(context).create(ApiService.class);
 
-                        Call<ResponseBody> call =
-                                apiService.deleteFile(selectedVideo.getId());
+                        // ⭐ FIX: use ResponseBody (avoid JSON error)
+                        Call<ResponseBody> call = apiService.deleteFile(selectedPdf.getId());
 
                         call.enqueue(new Callback<ResponseBody>() {
 
@@ -104,7 +102,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                 if (response.isSuccessful() && response.body() != null) {
 
                                     try {
-                                        String msg = response.body().string();
+                                        String msg = response.body().string(); // ⭐ NEW
 
                                         Toast.makeText(context,
                                                 msg,
@@ -116,12 +114,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                                 Toast.LENGTH_SHORT).show();
                                     }
 
-                                    // ⭐ REMOVE ITEM + REFRESH LIST
-                                    int currentPos = holder.getBindingAdapterPosition();
-                                    if (currentPos != RecyclerView.NO_POSITION) {
-                                        videoList.remove(currentPos);
-                                        notifyItemRemoved(currentPos);
-                                    }
+                                    // ⭐ FINAL FIX: stable refresh
+                                    pdfList.remove(pos);
+                                    notifyDataSetChanged(); // ⭐ IMPORTANT
 
                                 } else {
                                     Toast.makeText(context,
@@ -149,23 +144,20 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return videoList.size();
+        return pdfList.size();
     }
 
-    // ================================
-    // ✅ VIEW HOLDER (PERFORMANCE FIX)
-    // ================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtVideoName;
-        ImageView imgThumbnail;
+        TextView txtPdfName;
+        ImageView pdfIcon;
         ImageView btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtVideoName = itemView.findViewById(R.id.txtVideoName);
-            imgThumbnail = itemView.findViewById(R.id.imgThumbnail);
+            txtPdfName = itemView.findViewById(R.id.txtPdfName);
+            pdfIcon = itemView.findViewById(R.id.pdfIcon);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }

@@ -1,6 +1,7 @@
 package com.example.mmtradingzone;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mmtradingzone.adapter.PremiumVideoAdapter;
+import com.example.mmtradingzone.adapter.VideoAdapter;
+import com.example.mmtradingzone.network.ApiClient;
+import com.example.mmtradingzone.network.ApiService;
+import com.example.mmtradingzone.network.FilesModel;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PaidVideoListActivity extends AppCompatActivity {
 
@@ -30,7 +37,8 @@ public class PaidVideoListActivity extends AppCompatActivity {
         recyclerPremiumVideos = findViewById(R.id.recyclerPremiumVideos);
         txtNoVideos = findViewById(R.id.txtNoVideos);
 
-        boolean paymentSuccess = getIntent().getBooleanExtra("paymentSuccess", false);
+        boolean paymentSuccess = getIntent().getBooleanExtra("paymentSuccess", true);
+        System.out.println("PAYMENT STATUS:"+paymentSuccess);
 
         if(paymentSuccess){
 
@@ -38,7 +46,8 @@ public class PaidVideoListActivity extends AppCompatActivity {
             txtNoVideos.setVisibility(View.GONE);
             recyclerPremiumVideos.setVisibility(View.VISIBLE);
 
-            loadPremiumVideos();
+            // 🔥 NEW: DB se fetch
+            fetchPremiumVideos();
 
         } else {
 
@@ -55,17 +64,54 @@ public class PaidVideoListActivity extends AppCompatActivity {
         });
     }
 
-    private void loadPremiumVideos(){
+    // 🔥 SAME as free video
+    private void fetchPremiumVideos() {
 
-        List<String> videoList = new ArrayList<>();
+        SharedPreferences prefs =
+                getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
-        videoList.add("▶ Advanced Price Action Strategy");
-        videoList.add("▶ BankNifty Intraday Secret Strategy");
-        videoList.add("▶ Option Chain Masterclass");
+        String phoneNumber = prefs.getString("PHONE", "");
 
-        PremiumVideoAdapter adapter = new PremiumVideoAdapter(videoList);
+        ApiService apiService =
+                ApiClient.getClient(this).create(ApiService.class);
 
-        recyclerPremiumVideos.setLayoutManager(new LinearLayoutManager(this));
-        recyclerPremiumVideos.setAdapter(adapter);
+      //  Call<List<FilesModel>> call =
+        //        apiService.getVideoList("MP4", phoneNumber);
+        // 🔥 NEW: Only premium videos
+        Call<List<FilesModel>> call =
+                apiService.getPremiumVideos("MP4");
+
+        call.enqueue(new Callback<List<FilesModel>>() {
+
+            @Override
+            public void onResponse(Call<List<FilesModel>> call,
+                                   Response<List<FilesModel>> response) {
+
+                List<FilesModel> videoList = response.body();
+
+                if(videoList != null && !videoList.isEmpty()){
+
+                    recyclerPremiumVideos.setLayoutManager(
+                            new LinearLayoutManager(PaidVideoListActivity.this)
+                    );
+                    recyclerPremiumVideos.setAdapter(
+                            new VideoAdapter(
+                                    PaidVideoListActivity.this,
+                                    videoList
+                            )
+                    );
+
+                } else {
+
+                    txtNoVideos.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<FilesModel>> call, Throwable t) {
+
+                t.printStackTrace();
+            }
+        });
     }
 }

@@ -1,19 +1,11 @@
 package com.example.mmtradingzone;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.mmtradingzone.adapter.VideoAdapter;
-import com.example.mmtradingzone.network.ApiClient;
-import com.example.mmtradingzone.network.ApiService;
-import com.example.mmtradingzone.network.FilesModel;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FreeVideosActivity extends AppCompatActivity {
 
@@ -50,6 +42,47 @@ public class FreeVideosActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        Button btnFreeImage = findViewById(R.id.btnFreeImages);
+        Button btnPaidImage = findViewById(R.id.btnPaidImages);
+
+// 🔥 FREE IMAGE CLICK
+        btnFreeImage.setOnClickListener(v -> {
+            Intent intent = new Intent(FreeVideosActivity.this, FreeImageListActivity.class);
+            startActivity(intent);
+        });
+
+// 🔥 PREMIUM IMAGE CLICK
+        btnPaidImage.setOnClickListener(v -> {
+            Intent intent = new Intent(FreeVideosActivity.this, PaidImageListActivity.class);
+            startActivity(intent);
+        });
+
+        // ⭐⭐⭐ NEW CODE START (PDF BUTTON HANDLING)
+
+// FREE PDF BUTTON
+        Button btnFreePdf = findViewById(R.id.btnFreePdf);
+
+        btnFreePdf.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    FreeVideosActivity.this,
+                    FreePdfListActivity.class   // ⭐ NEW ACTIVITY
+            );
+            startActivity(intent);
+        });
+
+// PAID PDF BUTTON
+        Button btnPaidPdf = findViewById(R.id.btnPaidPdf);
+
+        btnPaidPdf.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    FreeVideosActivity.this,
+                    PaidPdfListActivity.class   // ⭐ NEW ACTIVITY
+            );
+            startActivity(intent);
+        });
+
+// ⭐⭐⭐ NEW CODE END
     }
 
     private void openPlayer(String url) {

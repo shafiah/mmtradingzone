@@ -11,9 +11,43 @@
         android:id="@+id/imgPreview"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:contentDescription="Image Preview" />
 
-    <!-- ✅ ADDED CONFIRM BUTTON -->
+    <!-- FREE / PREMIUM -->
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/radioFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Free"
+            android:checked="true"
+            android:padding="8dp"/>
+
+        <RadioButton
+            android:id="@+id/radioPremium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Premium"
+            android:layout_marginStart="20dp"
+            android:padding="8dp"/>
+    </RadioGroup>
+
+    <!-- TITLE -->
+    <EditText
+        android:id="@+id/etImageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter image title..."
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@android:drawable/edit_text"/>
+
     <Button
         android:id="@+id/btnConfirmUpload"
         android:layout_width="match_parent"
@@ -28,13 +62,6 @@
         android:layout_height="25dp"
         android:max="100"
         android:progress="0"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/uploadPercentText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0%"
         android:visibility="gone"/>
 
 </LinearLayout>

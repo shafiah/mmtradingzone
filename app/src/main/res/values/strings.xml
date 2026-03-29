@@ -23,4 +23,24 @@
     <string name="org_code">Organization Code QVOOYD</string>
     <string name="share_facebook">Share on Facebook</string>
     <string name="logout">Logout</string>
+
+    <string name="video_thumbnail_desc">Video thumbnail</string>
+    <string name="delete_video_desc">Delete video</string>
+    <string name="video_title_placeholder">Lesson 1</string>
+
+    <string name="image_desc">Uploaded image</string>
+    <string name="delete_image_desc">Delete image</string>
+    <string name="image_title">Image</string>
+
+    <string name="uploaded_image">Uploaded Image</string>
+    <string name="image_label">Image</string>
+    <string name="delete_image">Delete Image</string>
+    <string name="delete_confirm">Are you sure you want to delete?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="pdf_icon">PDF Icon</string>
+    <string name="pdf_file">PDF File</string>
+    <string name="delete_pdf">Delete PDF</string>
+
 </resources>

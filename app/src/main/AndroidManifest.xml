@@ -19,6 +19,30 @@
         android:theme="@style/Theme.MMTradingZone"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PdfViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaidPdfListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FreePdfListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ImageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaidImageListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FreeImageListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaidImageList"
+            android:exported="false" />
+        <activity
+            android:name=".FreeImageList"
+            android:exported="false" />
+        <activity
             android:name=".PaidVideoListActivity"
             android:exported="false" />
         <activity

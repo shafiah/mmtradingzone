@@ -76,7 +76,39 @@
                 android:id="@+id/btnPaidVideos"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Paid Videos"/>
+                android:text="Premium Videos"/>
+
+            <!-- FREE IMAGES BUTTON -->
+            <Button
+                android:id="@+id/btnFreeImages"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Free Images"
+                android:layout_marginTop="10dp"/>
+
+            <!-- PAID IMAGES BUTTON -->
+            <Button
+                android:id="@+id/btnPaidImages"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Premium Images"
+                android:layout_marginTop="10dp"/>
+
+            <!-- FREE PDF BUTTON -->
+            <Button
+                android:id="@+id/btnFreePdf"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Free Pdf"
+                android:layout_marginTop="10dp"/>
+
+            <!-- PAID PDF BUTTON -->
+            <Button
+                android:id="@+id/btnPaidPdf"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Premium Pdf"
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 

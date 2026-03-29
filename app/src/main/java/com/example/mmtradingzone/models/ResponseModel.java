@@ -5,6 +5,9 @@ public class ResponseModel {
     private String message;
     private String error;
 
+    private boolean paid;
+
+
     public String getMessage() {
         return message;
     }
