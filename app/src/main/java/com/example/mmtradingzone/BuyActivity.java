@@ -28,6 +28,7 @@ public class BuyActivity extends BaseActivity implements PaymentResultListener {
         super.onCreate(savedInstanceState);
         // ⭐ IMPORTANT
         setContentLayout(R.layout.activity_buy);
+        setSelectedTab(R.id.nav_store); // ⭐ MUST
 
        // setContentView(R.layout.activity_buy);
 

@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // ⭐ IMPORTANT
         setContentLayout(R.layout.activity_main);
+        setSelectedTab(R.id.nav_home); // ⭐ MUST
 
        // setContentView(R.layout.activity_main);
 

@@ -36,6 +36,7 @@ public class EditProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // ⭐ IMPORTANT
         setContentLayout(R.layout.activity_edit_profile);
+       // setSelectedTab(R.id.nav_profile); // ⭐ MUST
 
        // setContentView(R.layout.activity_edit_profile);
 
