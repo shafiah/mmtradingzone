@@ -14,9 +14,9 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -85,5 +85,21 @@ public interface ApiService {
 
     @DELETE("file/delete/file/{id}")
     Call<ResponseBody> deleteFile(@Path("id") Long id);
+
+    @GET("user/get-user/{id}")
+    Call<Users> getUserById(@Path("id") Long id);
+
+    @PUT("user/update-user/{id}")
+    Call<Users> updateUser(
+            @Path("id") Long id,
+            @Body Users user
+    );
+
+    @Multipart
+    @POST("user/update")
+    Call<String> updateProfile(
+            @Part("name") RequestBody name,
+            @Part("mobile") RequestBody mobile
+    );
 }
 

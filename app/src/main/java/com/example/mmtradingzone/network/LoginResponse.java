@@ -7,6 +7,7 @@ public class LoginResponse {
     private Long id;
     @SerializedName("userName")
     private String userName;
+    @SerializedName("mobile")
     private String phoneNumber;
     private String deviceId;
     private boolean prime;
@@ -20,6 +21,8 @@ public class LoginResponse {
     public String getUserName() {
         return userName;
     }
+
+    public String getPhoneNumber(){return phoneNumber;}
 
     public boolean isPrime() {
         return prime;

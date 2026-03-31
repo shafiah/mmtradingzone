@@ -1,5 +1,6 @@
 package com.example.mmtradingzone;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
@@ -188,6 +189,12 @@ public class PdfPreviewActivity extends AppCompatActivity {
                         Toast.makeText(PdfPreviewActivity.this,
                                 "Upload Success",
                                 Toast.LENGTH_LONG).show();
+                        // ⭐ NEW CODE START
+                        Intent intent = new Intent(PdfPreviewActivity.this, UploadChoiceActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish(); // ⭐ back pe wapas preview na aaye
+                        // ⭐ NEW CODE END
 
                     } else {
                         Toast.makeText(PdfPreviewActivity.this,

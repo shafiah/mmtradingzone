@@ -4,44 +4,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.mmtradingzone.base.BaseActivity;
 
-public class UploadChoiceActivity extends AppCompatActivity {
+public class UploadChoiceActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_choice);
+
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_upload_choice);
 
         Button btnVideoUpload = findViewById(R.id.btnVideoUpload);
         Button btnImageUpload = findViewById(R.id.btnImageUpload);
         Button btnUploadPdf = findViewById(R.id.btnUploadPdf);
 
-        // 🎥 Video Upload
-        btnVideoUpload.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    UploadChoiceActivity.this,
-                    UploadVideoActivity.class
-            );
-            startActivity(intent);
-        });
+        btnVideoUpload.setOnClickListener(v ->
+                startActivity(new Intent(this, UploadVideoActivity.class)));
 
-        // 🖼 Image Upload
-        btnImageUpload.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    UploadChoiceActivity.this,
-                    UploadImageActivity.class
-            );
-            startActivity(intent);
-        });
+        btnImageUpload.setOnClickListener(v ->
+                startActivity(new Intent(this, UploadImageActivity.class)));
 
-        // 🖼 PDF Upload
-        btnUploadPdf.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    UploadChoiceActivity.this,
-                    UploadPdfActivity.class
-            );
-            startActivity(intent);
-        });
+        btnUploadPdf.setOnClickListener(v ->
+                startActivity(new Intent(this, UploadPdfActivity.class)));
     }
 }

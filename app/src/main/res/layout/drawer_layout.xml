@@ -43,45 +43,33 @@
                 android:layout_marginBottom="4dp"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Organization Code QVOQYD"
-                android:textSize="14sp"
-                android:textColor="#666"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- MENU ITEMS -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Offline Downloads"
-                android:padding="12dp"/>
-            <TextView
+                android:id="@+id/txtFreeMaterial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Free Material"
                 android:padding="12dp"/>
+
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Students Testimonial"
-                android:padding="12dp"/>
-            <TextView
+                android:id="@+id/txtEditProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit Profile"
                 android:padding="12dp"/>
             <TextView
+                android:id="@+id/txtSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Settings"
                 android:padding="12dp"/>
             <TextView
+                android:id="@+id/txtHowToUse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="How to use the App"
                 android:padding="12dp"/>
             <TextView
+                android:id="@+id/txtPrivacyPolicy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Privacy Policy" android:padding="12dp"/>

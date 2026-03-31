@@ -34,24 +34,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Premium Trading Plan"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount: ₹1"
-                android:textSize="16sp"
                 android:layout_marginTop="8dp"
-                android:textColor="@android:color/black"/>
+                android:text="Amount: ₹1"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnProceedPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Proceed to Pay"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:text="Proceed to Pay" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

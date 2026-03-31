@@ -1,5 +1,6 @@
 package com.example.mmtradingzone;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -192,7 +193,12 @@ public class VideoPreviewActivity extends AppCompatActivity {
                         Toast.makeText(VideoPreviewActivity.this,
                                 "Upload Success",
                                 Toast.LENGTH_LONG).show();
-
+                        // ⭐ NEW CODE START
+                        Intent intent = new Intent(VideoPreviewActivity.this, UploadChoiceActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish(); // ⭐ back pe wapas preview na aaye
+                        // ⭐ NEW CODE END
                     } else {
 
                         Toast.makeText(VideoPreviewActivity.this,

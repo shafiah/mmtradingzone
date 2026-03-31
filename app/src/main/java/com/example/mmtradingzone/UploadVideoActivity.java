@@ -8,14 +8,19 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class UploadVideoActivity extends AppCompatActivity {
+import com.example.mmtradingzone.base.BaseActivity;
+
+public class UploadVideoActivity extends BaseActivity {
 
     private static final int PICK_VIDEO_REQUEST = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_video);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_upload_video);
+
+       // setContentView(R.layout.activity_upload_video);
 
         Button btnPickVideo = findViewById(R.id.btnPickVideo);
 

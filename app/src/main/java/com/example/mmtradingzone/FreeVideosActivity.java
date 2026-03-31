@@ -6,21 +6,26 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mmtradingzone.base.BaseActivity;
 
-public class FreeVideosActivity extends AppCompatActivity {
+
+public class FreeVideosActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_free_videos);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_free_videos);
 
-        findViewById(R.id.video1).setOnClickListener(v ->
-                openPlayer("http://18.206.151.182/trading_basic.mp4")
-        );
+        //setContentView(R.layout.activity_free_videos);
 
-        findViewById(R.id.video2).setOnClickListener(v ->
-                openPlayer("http://18.206.151.182/trading_intro.mp4")
-        );
+       // findViewById(R.id.video1).setOnClickListener(v ->
+         //       openPlayer("http://18.206.151.182/trading_basic.mp4")
+      //  );
+
+      //  findViewById(R.id.video2).setOnClickListener(v ->
+        //        openPlayer("http://18.206.151.182/trading_intro.mp4")
+      //  );
 
 
         findViewById(R.id.btnFreeVideos).setOnClickListener(v -> {

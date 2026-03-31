@@ -82,11 +82,21 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("DEVICE_ID",deviceId);
                     editor.putBoolean("isLoggedIn", true);
                     editor.putString("userName", apiUser.getUserName());
+                    editor.putLong("userId",apiUser.getId());
+                    editor.putString("phoneNumber",apiUser.getPhoneNumber());
                     editor.apply();
+                    // ⭐ NEW CODE (IMPORTANT)
+                   // prefs.edit()
+                     //       .putLong("userId", response.body().getId())
+                      //      .apply();
+                  //  prefs.edit()
+                    //        .putString("phoneNumber", response.body().getPhoneNumber())
+                      //      .apply();
 
                     Toast.makeText(LoginActivity.this,
                             "Login Successful",
                             Toast.LENGTH_SHORT).show();
+
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);

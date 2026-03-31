@@ -19,6 +19,9 @@
         android:theme="@style/Theme.MMTradingZone"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".PdfViewActivity"
             android:exported="false" />
         <activity

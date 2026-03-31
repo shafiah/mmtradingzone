@@ -324,7 +324,7 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <!-- ⬇️ BOTTOM NAV -->
+        <!-- ⬇️ BOTTOM NAV
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -333,7 +333,7 @@
             android:paddingBottom="8dp"
             android:fitsSystemWindows="true"
 
-            app:menu="@menu/bottom_menu"/>
+            app:menu="@menu/bottom_menu"/>  -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <!-- 🧩 DRAWER CONTENT -->

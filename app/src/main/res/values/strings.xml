@@ -43,4 +43,9 @@
     <string name="pdf_file">PDF File</string>
     <string name="delete_pdf">Delete PDF</string>
 
+    <string name="edit_profile">Edit Profile</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_mobile">Enter Mobile</string>
+    <string name="update_profile">Update Profile</string>
+
 </resources>

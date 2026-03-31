@@ -56,16 +56,16 @@
                 android:orientation="vertical"
                 android:layout_marginTop="24dp">
 
-                <include layout="@layout/drawer_item"/>
-                <include layout="@layout/drawer_item"/>
-                <include layout="@layout/drawer_item"/>
-                <include layout="@layout/drawer_item"/>
-                <include layout="@layout/drawer_item"/>
-                <include layout="@layout/drawer_item"/>
-                <include layout="@layout/drawer_item"/>
+                <!-- ⭐ IDs ADDED -->
+                <include layout="@layout/drawer_item" android:id="@+id/menuOffline"/>
+                <include layout="@layout/drawer_item" android:id="@+id/menuFree"/>
+                <include layout="@layout/drawer_item" android:id="@+id/menuTestimonial"/>
+                <include layout="@layout/drawer_item" android:id="@+id/menuEditProfile"/>
+                <include layout="@layout/drawer_item" android:id="@+id/menuSettings"/>
+                <include layout="@layout/drawer_item" android:id="@+id/menuHowTo"/>
+                <include layout="@layout/drawer_item" android:id="@+id/menuPrivacy"/>
 
             </LinearLayout>
-
             <!-- LOGOUT -->
             <TextView
                 android:id="@+id/btnLogout"

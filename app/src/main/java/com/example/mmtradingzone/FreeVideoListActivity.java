@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.adapter.VideoAdapter;
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
@@ -22,14 +23,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FreeVideoListActivity extends AppCompatActivity {
+public class FreeVideoListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_free_video_list);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_free_video_list);
+
+       // setContentView(R.layout.activity_free_video_list);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

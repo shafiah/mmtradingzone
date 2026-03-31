@@ -6,6 +6,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.core.view.GravityCompat;
 
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.LoginRequest;
@@ -32,28 +33,90 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    SharedPreferences prefs; // ✅ global banaya taaki sab jagah use ho
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_main);
 
-        prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE); // ✅ prefs init
+       // setContentView(R.layout.activity_main);
+
+        prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
         // Drawer user name show
         TextView txtName = findViewById(R.id.txtName);
-
-        //UserName Fetch
         String userName = prefs.getString("userName","User");
         txtName.setText(userName);
+
+        // ===============================
+        // ⭐ NEW: FREE MATERIAL CLICK
+        // ===============================
+        TextView txtFreeMaterial = findViewById(R.id.txtFreeMaterial);
+
+        txtFreeMaterial.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, FreeVideosActivity.class);
+            startActivity(intent);
+
+        });
+
+        // ===============================
+        // EXISTING CODE (UNCHANGED)
+        // ===============================
+
+        // ⭐ EDIT PROFILE CLICK
+        TextView txtEditProfile = findViewById(R.id.txtEditProfile);
+
+        txtEditProfile.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+
+        });
+
+             // ===============================
+            // ⭐ NEW: SETTINGS CLICK → Coming Soon
+           // ===============================
+        TextView txtSettings = findViewById(R.id.txtSettings);
+
+        txtSettings.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
+            startActivity(intent);
+
+        });
+        // ===============================
+// ⭐ NEW: HOW TO USE APP → HOME
+// ===============================
+        TextView txtHowToUse = findViewById(R.id.txtHowToUse);
+
+        txtHowToUse.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ⭐ stack clean
+            startActivity(intent);
+
+        });
+        // ===============================
+// ⭐ NEW: PRIVACY POLICY → Coming Soon
+// ===============================
+        TextView txtPrivacyPolicy = findViewById(R.id.txtPrivacyPolicy);
+
+        txtPrivacyPolicy.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
+            startActivity(intent);
+
+        });
+
 
         Button btnLogout = findViewById(R.id.btnLogout);
 
         btnLogout.setOnClickListener(v -> {
-
             SharedPreferences.Editor editor = prefs.edit();
             editor.clear();
             editor.apply();
@@ -66,11 +129,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnBuyNow = findViewById(R.id.btnBuyNow);
 
         btnBuyNow.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    MainActivity.this,
-                    BuyActivity.class
-            );
+            Intent intent = new Intent(MainActivity.this, BuyActivity.class);
             startActivity(intent);
         });
 
@@ -93,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 🔹 DRAWER OPEN CODE
+        // 🔹 DRAWER OPEN CODE (UNCHANGED)
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
 
@@ -102,6 +161,46 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v ->
                 drawerLayout.openDrawer(GravityCompat.START)
         );
+
+        // =====================================================
+        // ⭐ NEW CODE START (DRAWER MENU CLICK HANDLE)
+        // =====================================================
+
+        View menuEditProfile = findViewById(R.id.menuEditProfile);
+        View menuSettings = findViewById(R.id.menuSettings);
+        View menuPrivacy = findViewById(R.id.menuPrivacy);
+
+        if (menuEditProfile != null) {
+            // ⭐ Set title (optional safe)
+            TextView txt = menuEditProfile.findViewById(R.id.txtTitle);
+            if (txt != null) txt.setText("Edit Profile");
+
+            menuEditProfile.setOnClickListener(v -> {
+                startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
+            });
+        }
+
+        if (menuSettings != null) {
+            TextView txt = menuSettings.findViewById(R.id.txtTitle);
+            if (txt != null) txt.setText("Settings");
+
+            menuSettings.setOnClickListener(v -> {
+                Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        if (menuPrivacy != null) {
+            TextView txt = menuPrivacy.findViewById(R.id.txtTitle);
+            if (txt != null) txt.setText("Privacy Policy");
+
+            menuPrivacy.setOnClickListener(v -> {
+                Toast.makeText(this, "Privacy Policy", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // =====================================================
+        // ⭐ NEW CODE END
+        // =====================================================
 
         // 🔗 CONNECT WITH US ICONS
         ImageView ivYoutube = findViewById(R.id.ivBottomYoutube);
@@ -121,14 +220,18 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    // ✅ IMPORTANT: Activity resume hone par session check hoga
     @Override
     protected void onResume() {
         super.onResume();
-     //   checkSession();
+
+        // ⭐ NEW: refresh username
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String userName = prefs.getString("userName", "User");
+
+        TextView txtName = findViewById(R.id.txtName);
+        txtName.setText(userName);
     }
 
-    // ✅ SESSION CHECK FUNCTION
     private void checkSession() {
 
         String phone = prefs.getString("PHONE", "");
@@ -181,7 +284,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // 🔔 TOOLBAR BELL ICON CLICK HANDLE
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

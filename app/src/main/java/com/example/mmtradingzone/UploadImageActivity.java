@@ -9,7 +9,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class UploadImageActivity extends AppCompatActivity {
+import com.example.mmtradingzone.base.BaseActivity;
+
+public class UploadImageActivity extends BaseActivity {
 
     Button btnPickImage;
 
@@ -36,7 +38,10 @@ public class UploadImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_image);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_upload_image);
+
+       // setContentView(R.layout.activity_upload_image);
 
         btnPickImage = findViewById(R.id.btnPickImage);
 

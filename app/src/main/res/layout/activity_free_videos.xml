@@ -35,7 +35,7 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Introduction Video -->
+            <!-- Introduction Video
 
             <TextView
                 android:id="@+id/video1"
@@ -46,9 +46,9 @@
                 android:textSize="18sp"
                 android:gravity="center_vertical"
                 android:padding="15dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"/>  -->
 
-            <!-- Basics Video -->
+            <!-- Basics Video
 
             <TextView
                 android:id="@+id/video2"
@@ -59,7 +59,7 @@
                 android:textSize="18sp"
                 android:gravity="center_vertical"
                 android:padding="15dp"
-                android:layout_marginBottom="30dp"/>
+                android:layout_marginBottom="30dp"/>  -->
 
             <!-- Free Videos Button -->
 

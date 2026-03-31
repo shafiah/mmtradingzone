@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.razorpay.Checkout;
@@ -20,12 +21,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuyActivity extends AppCompatActivity implements PaymentResultListener {
+public class BuyActivity extends BaseActivity implements PaymentResultListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buy);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_buy);
+
+       // setContentView(R.layout.activity_buy);
 
         Checkout.preload(getApplicationContext());
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.adapter.ImageAdapter;
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
@@ -20,14 +21,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaidImageListActivity extends AppCompatActivity {
+public class PaidImageListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paid_image_list);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_paid_image_list);
+
+       // setContentView(R.layout.activity_paid_image_list);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

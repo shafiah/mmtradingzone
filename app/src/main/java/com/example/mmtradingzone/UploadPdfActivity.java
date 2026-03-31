@@ -9,7 +9,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class UploadPdfActivity extends AppCompatActivity {
+import com.example.mmtradingzone.base.BaseActivity;
+
+public class UploadPdfActivity extends BaseActivity {
 
     Button btnPickPdf;
 
@@ -38,7 +40,10 @@ public class UploadPdfActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_pdf);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_upload_pdf);
+
+       // setContentView(R.layout.activity_upload_pdf);
 
         btnPickPdf = findViewById(R.id.btnPickPdf);
 

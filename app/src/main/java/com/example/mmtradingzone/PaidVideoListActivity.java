@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.adapter.VideoAdapter;
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
@@ -22,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PaidVideoListActivity extends AppCompatActivity {
+public class PaidVideoListActivity extends BaseActivity {
 
     Button btnBuyPremium;
     RecyclerView recyclerPremiumVideos;
@@ -31,7 +32,10 @@ public class PaidVideoListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paid_video_list);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_paid_video_list);
+
+       // setContentView(R.layout.activity_paid_video_list);
 
         btnBuyPremium = findViewById(R.id.btnBuyPremium);
         recyclerPremiumVideos = findViewById(R.id.recyclerPremiumVideos);

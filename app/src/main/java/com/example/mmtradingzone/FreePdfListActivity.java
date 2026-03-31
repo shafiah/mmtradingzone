@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.adapter.PdfAdapter;
+import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
@@ -21,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FreePdfListActivity extends AppCompatActivity {
+public class FreePdfListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
     PdfAdapter adapter;
@@ -32,7 +33,10 @@ public class FreePdfListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_free_pdf_list);
+        // ⭐ IMPORTANT
+        setContentLayout(R.layout.activity_free_pdf_list);
+
+       // setContentView(R.layout.activity_free_pdf_list);
 
         recyclerView = findViewById(R.id.recyclerView);
 
