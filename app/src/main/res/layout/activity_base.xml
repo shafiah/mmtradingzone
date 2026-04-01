@@ -1,24 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+<!-- ✅ NEW: DrawerLayout ADD (TOP WRAPPER) -->
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ⭐ CONTENT -->
-    <FrameLayout
-        android:id="@+id/contentFrame"
+    <!-- =============================== -->
+    <!-- ✅ EXISTING CODE (UNCHANGED) -->
+    <!-- =============================== -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 🔥🔥🔥 FINAL FIX: APPBAR ADD (STATUS BAR ISSUE FIX) -->
+
+
+            <!-- 🔥 TOOLBAR (UNCHANGED, JUST WRAPPED) -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:paddingTop="15dp"
+                android:background="#03A9F4"
+                android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+                app:title="ABITI TRADING ZONE"
+                app:titleCentered="true"
+                app:titleTextColor="@android:color/white"
+                app:navigationIcon="@drawable/ic_menu"
+                app:menu="@menu/top_bar_menu"
+                app:itemIconSize="24dp"/>
+
+
+        <!-- ⭐ CONTENT (UNCHANGED, JUST TOP MARGIN ADD) -->
+        <FrameLayout
+            android:id="@+id/contentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginBottom="56dp"/>
+
+        <!-- ⭐ SAME BOTTOM NAV AS HOME (UNCHANGED) -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#03A9F4"
+            android:paddingBottom="8dp"
+            app:menu="@menu/bottom_menu"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- 🔥 NEW: DRAWER CONTENT ADD -->
+    <include
+        layout="@layout/drawer_layout"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp"/>
+        android:layout_gravity="start"/>
 
-    <!-- ⭐ SAME BOTTOM NAV AS HOME -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:paddingBottom="8dp"
-        app:menu="@menu/bottom_menu"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

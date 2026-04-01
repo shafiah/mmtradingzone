@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity {
         setContentLayout(R.layout.activity_main);
         setSelectedTab(R.id.nav_home); // ⭐ MUST
 
-       // setContentView(R.layout.activity_main);
+        // setContentView(R.layout.activity_main);
 
         prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
@@ -79,9 +79,9 @@ public class MainActivity extends BaseActivity {
 
         });
 
-             // ===============================
-            // ⭐ NEW: SETTINGS CLICK → Coming Soon
-           // ===============================
+        // ===============================
+        // ⭐ NEW: SETTINGS CLICK → Coming Soon
+        // ===============================
         TextView txtSettings = findViewById(R.id.txtSettings);
 
         txtSettings.setOnClickListener(v -> {
@@ -91,6 +91,7 @@ public class MainActivity extends BaseActivity {
 
         });
         // ===============================
+
 // ⭐ NEW: HOW TO USE APP → HOME
 // ===============================
         TextView txtHowToUse = findViewById(R.id.txtHowToUse);
@@ -103,6 +104,7 @@ public class MainActivity extends BaseActivity {
 
         });
         // ===============================
+
 // ⭐ NEW: PRIVACY POLICY → Coming Soon
 // ===============================
         TextView txtPrivacyPolicy = findViewById(R.id.txtPrivacyPolicy);
@@ -146,22 +148,14 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        View root = findViewById(android.R.id.content);
-        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, systemBars.top, 0, 0);
-            return insets;
-        });
+     //   View root = findViewById(android.R.id.content);
+     //   ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+     //       Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+     //       v.setPadding(0, systemBars.top, 0, 0);
+     //       return insets;
+     //   });
 
-        // 🔹 DRAWER OPEN CODE (UNCHANGED)
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
 
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationOnClickListener(v ->
-                drawerLayout.openDrawer(GravityCompat.START)
-        );
 
         // =====================================================
         // ⭐ NEW CODE START (DRAWER MENU CLICK HANDLE)
@@ -279,26 +273,9 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_bar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_notification) {
-            Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void openLink(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
+
 }

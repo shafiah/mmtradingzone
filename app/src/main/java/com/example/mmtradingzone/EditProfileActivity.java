@@ -1,21 +1,19 @@
 package com.example.mmtradingzone;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.Users;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +23,6 @@ public class EditProfileActivity extends BaseActivity {
 
     EditText etName;
     Button btnUpdate;
-
     TextView txtMobile;
 
     SharedPreferences prefs;
@@ -34,18 +31,18 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // ⭐ IMPORTANT
         setContentLayout(R.layout.activity_edit_profile);
-       // setSelectedTab(R.id.nav_profile); // ⭐ MUST
 
-       // setContentView(R.layout.activity_edit_profile);
+
+        // ===============================
+        // EXISTING CODE (UNCHANGED)
+        // ===============================
 
         etName = findViewById(R.id.etName);
         txtMobile = findViewById(R.id.txtMobile);
         btnUpdate = findViewById(R.id.btnUpdate);
-
-
-
 
         prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
@@ -54,12 +51,14 @@ public class EditProfileActivity extends BaseActivity {
         String userName = prefs.getString("userName", "");
         String mobile = prefs.getString("phoneNumber","");
         Log.d("PREF_MOBILE", mobile);
+
         // DEBUG
         Log.d("PREF_MOBILE", "Mobile: " + mobile);
 
         // ✅ SET EXISTING NAME
         etName.setText(userName);
         txtMobile.setText(mobile);
+
         // DEBUG
         Log.d("PREF_MOBILE", "Mobile: " + mobile);
 
@@ -84,7 +83,6 @@ public class EditProfileActivity extends BaseActivity {
     // ============================
     private void updateUserName(String name) {
 
-
         ApiService apiService =
                 ApiClient.getClient(this).create(ApiService.class);
 
@@ -97,8 +95,6 @@ public class EditProfileActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call<Users> call, Response<Users> response) {
-
-
 
                 if (response.isSuccessful()) {
 
@@ -121,7 +117,6 @@ public class EditProfileActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
-
 
                 Toast.makeText(EditProfileActivity.this,
                         "Error: " + t.getMessage(),

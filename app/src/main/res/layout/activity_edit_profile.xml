@@ -8,10 +8,7 @@
     android:padding="20dp"
     android:background="#ECE7F6">
 
-    <!-- TOP SPACE -->
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+
 
     <!-- HEADING -->
     <TextView

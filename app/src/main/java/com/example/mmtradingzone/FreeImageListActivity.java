@@ -1,10 +1,13 @@
 package com.example.mmtradingzone;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +16,7 @@ import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
 import java.util.ArrayList; // ⭐ NEW IMPORT
@@ -31,7 +35,8 @@ public class FreeImageListActivity extends BaseActivity {
         // ⭐ IMPORTANT
         setContentLayout(R.layout.activity_free_image_list);
 
-       // setContentView(R.layout.activity_free_image_list);
+
+        // setContentView(R.layout.activity_free_image_list);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
