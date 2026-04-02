@@ -2,32 +2,31 @@ package com.example.mmtradingzone.network;
 
 public class FilesModel {
 
-    private Long id;
+    private long id;
     private String fileName;
     private String fileType;
     private boolean paid;
-
+    private String uploadDate;
     private String title;
 
-    public String getFileName() {
-        return fileName;
-    }
+    // Getter & Setter
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public boolean isPaid(){
-        return paid;
-    }
+    public String getFileName() { return fileName; }
+    public void setFileName(String fileName) { this.fileName = fileName; }
 
-    public String getTitle(){
-        return title;
-    }
+    public String getFileType() { return fileType; }
+    public void setFileType(String fileType) { this.fileType = fileType; }
 
-    public Long getId(){
-        return id;
-    }
-    public  void setId(Long id){
-        this.id = id;
-    }
+    public boolean isPaid() { return paid; }
+    public void setPaid(boolean paid) { this.paid = paid; }
 
+    public String getUploadDate() { return uploadDate; }
+    public void setUploadDate(String uploadDate) { this.uploadDate = uploadDate; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
 
 }

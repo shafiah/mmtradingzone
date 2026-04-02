@@ -101,5 +101,8 @@ public interface ApiService {
             @Part("name") RequestBody name,
             @Part("mobile") RequestBody mobile
     );
+
+    @GET("/file/get/recent")
+    Call<List<FilesModel>> getRecentFiles();
 }
 
