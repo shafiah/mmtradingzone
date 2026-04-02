@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.Menu; // ⭐ NEW ADD
 import android.view.MenuItem; // ⭐ NEW ADD
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -14,13 +15,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.mmtradingzone.AuthChoiceActivity;
 import com.example.mmtradingzone.BuyActivity;
+import com.example.mmtradingzone.FreeVideosActivity;
 import com.example.mmtradingzone.MainActivity;
 import com.example.mmtradingzone.NotificationActivity;
 import com.example.mmtradingzone.ProfileActivity;
 import com.example.mmtradingzone.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.TextView;
+import com.example.mmtradingzone.EditProfileActivity;
+
+
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -41,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
 
         // ⭐ BASE LAYOUT
         super.setContentView(R.layout.activity_base);
+
 
         // ⭐ NEW TOOLBAR + DRAWER (FINAL)
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -68,6 +79,92 @@ public class BaseActivity extends AppCompatActivity {
 
         contentFrame = findViewById(R.id.contentFrame);
         bottomNav = findViewById(R.id.bottomNav);
+
+
+        // ===============================
+        // 🔥 NEW: DRAWER MENU SHIFTED HERE
+        // ===============================
+
+        // ===============================
+// 🔥 DRAWER CLICK FINAL FIX
+// ===============================
+
+// USER NAME
+        TextView txtName = findViewById(R.id.txtName);
+        if (txtName != null) {
+            SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+            String userName = prefs.getString("userName", "User");
+            txtName.setText(userName);
+        }
+
+// 🔥 IMPORTANT: CORRECT IDS USE
+        TextView txtFreeMaterial = findViewById(R.id.txtFreeMaterial);
+        TextView txtEditProfile = findViewById(R.id.txtEditProfile);
+        TextView txtSettings = findViewById(R.id.txtSettings);
+        TextView txtPrivacyPolicy = findViewById(R.id.txtPrivacyPolicy);
+
+// FREE MATERIAL
+        if (txtFreeMaterial != null) {
+            txtFreeMaterial.setOnClickListener(v -> {
+                startActivity(new Intent(this, FreeVideosActivity.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+            });
+        }
+
+// EDIT PROFILE
+        if (txtEditProfile != null) {
+            txtEditProfile.setOnClickListener(v -> {
+                startActivity(new Intent(this, EditProfileActivity.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+            });
+        }
+
+// SETTINGS
+        if (txtSettings != null) {
+            txtSettings.setOnClickListener(v -> {
+                Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            });
+        }
+
+// PRIVACY
+        if (txtPrivacyPolicy != null) {
+            txtPrivacyPolicy.setOnClickListener(v -> {
+                Toast.makeText(this, "Privacy Policy", Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            });
+        }
+
+        // ===============================
+// ⭐ LOGOUT (FROM MAINACTIVITY - SHIFTED)
+// ===============================
+
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+
+                // 🔥 SAME LOGIC AS MAINACTIVITY
+                getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                        .edit()
+                        .clear()
+                        .apply();
+
+                Intent intent = new Intent(BaseActivity.this, AuthChoiceActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                // 🔥 CLOSE DRAWER
+                if (drawerLayout != null) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+            });
+        }
+
+        // ===============================
+        // BOTTOM NAV (UNCHANGED)
+        // ===============================
+
 
         // ⭐ NAVIGATION CLICK
         bottomNav.setOnItemSelectedListener(item -> {

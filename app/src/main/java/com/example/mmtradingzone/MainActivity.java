@@ -1,17 +1,10 @@
 package com.example.mmtradingzone;
 
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.core.view.GravityCompat;
-
 import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.LoginRequest;
 import com.example.mmtradingzone.network.LoginResponse;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 
 import android.content.Intent;
@@ -19,15 +12,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,18 +29,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // ⭐ IMPORTANT
         setContentLayout(R.layout.activity_main);
-        setSelectedTab(R.id.nav_home); // ⭐ MUST
-
-        // setContentView(R.layout.activity_main);
+        setSelectedTab(R.id.nav_home);
 
         prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-
-        // Drawer user name show
-        TextView txtName = findViewById(R.id.txtName);
-        String userName = prefs.getString("userName","User");
-        txtName.setText(userName);
 
         // ===============================
         // ⭐ NEW: FREE MATERIAL CLICK
@@ -59,64 +42,50 @@ public class MainActivity extends BaseActivity {
         TextView txtFreeMaterial = findViewById(R.id.txtFreeMaterial);
 
         txtFreeMaterial.setOnClickListener(v -> {
-
-            Intent intent = new Intent(MainActivity.this, FreeVideosActivity.class);
-            startActivity(intent);
-
+            startActivity(new Intent(MainActivity.this, FreeVideosActivity.class));
         });
 
         // ===============================
-        // EXISTING CODE (UNCHANGED)
-        // ===============================
-
         // ⭐ EDIT PROFILE CLICK
+        // ===============================
         TextView txtEditProfile = findViewById(R.id.txtEditProfile);
 
         txtEditProfile.setOnClickListener(v -> {
-
-            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-            startActivity(intent);
-
+            startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
         });
 
         // ===============================
-        // ⭐ NEW: SETTINGS CLICK → Coming Soon
+        // ⭐ SETTINGS CLICK
         // ===============================
         TextView txtSettings = findViewById(R.id.txtSettings);
 
         txtSettings.setOnClickListener(v -> {
-
-            Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
-            startActivity(intent);
-
+            startActivity(new Intent(MainActivity.this, ComingSoonActivity.class));
         });
-        // ===============================
 
-// ⭐ NEW: HOW TO USE APP → HOME
-// ===============================
+        // ===============================
+        // ⭐ HOW TO USE APP
+        // ===============================
         TextView txtHowToUse = findViewById(R.id.txtHowToUse);
 
         txtHowToUse.setOnClickListener(v -> {
-
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ⭐ stack clean
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-
         });
-        // ===============================
 
-// ⭐ NEW: PRIVACY POLICY → Coming Soon
-// ===============================
+        // ===============================
+        // ⭐ PRIVACY POLICY
+        // ===============================
         TextView txtPrivacyPolicy = findViewById(R.id.txtPrivacyPolicy);
 
         txtPrivacyPolicy.setOnClickListener(v -> {
-
-            Intent intent = new Intent(MainActivity.this, ComingSoonActivity.class);
-            startActivity(intent);
-
+            startActivity(new Intent(MainActivity.this, ComingSoonActivity.class));
         });
 
-
+        // ===============================
+        // ⭐ LOGOUT
+        // ===============================
         Button btnLogout = findViewById(R.id.btnLogout);
 
         btnLogout.setOnClickListener(v -> {
@@ -129,75 +98,34 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         });
 
+        // ===============================
+        // ⭐ BUY NOW
+        // ===============================
         Button btnBuyNow = findViewById(R.id.btnBuyNow);
 
         btnBuyNow.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, BuyActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, BuyActivity.class));
         });
 
+        // ===============================
+        // ⭐ FILE UPLOAD CARD
+        // ===============================
         MaterialCardView cardFileUpload = findViewById(R.id.cardFileUpload);
 
         cardFileUpload.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, UploadChoiceActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, UploadChoiceActivity.class));
         });
 
+        // ===============================
+        // ⭐ ALL COURSE CLICK
+        // ===============================
         findViewById(R.id.layoutAllCourse).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FreeVideosActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, FreeVideosActivity.class));
         });
 
-     //   View root = findViewById(android.R.id.content);
-     //   ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
-     //       Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-     //       v.setPadding(0, systemBars.top, 0, 0);
-     //       return insets;
-     //   });
-
-
-
-        // =====================================================
-        // ⭐ NEW CODE START (DRAWER MENU CLICK HANDLE)
-        // =====================================================
-
-        View menuEditProfile = findViewById(R.id.menuEditProfile);
-        View menuSettings = findViewById(R.id.menuSettings);
-        View menuPrivacy = findViewById(R.id.menuPrivacy);
-
-        if (menuEditProfile != null) {
-            // ⭐ Set title (optional safe)
-            TextView txt = menuEditProfile.findViewById(R.id.txtTitle);
-            if (txt != null) txt.setText("Edit Profile");
-
-            menuEditProfile.setOnClickListener(v -> {
-                startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
-            });
-        }
-
-        if (menuSettings != null) {
-            TextView txt = menuSettings.findViewById(R.id.txtTitle);
-            if (txt != null) txt.setText("Settings");
-
-            menuSettings.setOnClickListener(v -> {
-                Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (menuPrivacy != null) {
-            TextView txt = menuPrivacy.findViewById(R.id.txtTitle);
-            if (txt != null) txt.setText("Privacy Policy");
-
-            menuPrivacy.setOnClickListener(v -> {
-                Toast.makeText(this, "Privacy Policy", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        // =====================================================
-        // ⭐ NEW CODE END
-        // =====================================================
-
-        // 🔗 CONNECT WITH US ICONS
+        // ===============================
+        // 🔗 CONNECT WITH US
+        // ===============================
         ImageView ivYoutube = findViewById(R.id.ivBottomYoutube);
         ImageView ivInstagram = findViewById(R.id.ivBottomInstagram);
         ImageView ivTelegram = findViewById(R.id.ivBottomTelegram);
@@ -219,12 +147,14 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        // ⭐ NEW: refresh username
+        // ⭐ USERNAME REFRESH (Drawer me show hoga BaseActivity se)
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         String userName = prefs.getString("userName", "User");
 
         TextView txtName = findViewById(R.id.txtName);
-        txtName.setText(userName);
+        if (txtName != null) {
+            txtName.setText(userName);
+        }
     }
 
     private void checkSession() {
@@ -277,5 +207,4 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
-
 }
