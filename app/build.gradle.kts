@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")

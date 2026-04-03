@@ -17,12 +17,20 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
     @POST("/user/payment/create-order")
     Call<Map<String, Object>> createOrder();
 
+    // ⭐ NEW: VERIFY PAYMENT API
+    @POST("/user/payment/verify")
+    Call<String> verifyPayment(
+            @Query("paymentId") String paymentId,
+            @Query("orderId") String orderId,
+            @Query("phoneNumber") String phoneNumber
+    );
     // ✅ Register User API
     @POST("/user/create")
     Call<UserResponse> registerUser(@Body UserRequest userRequest);
