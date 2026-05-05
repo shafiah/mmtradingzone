@@ -123,26 +123,6 @@ public class BuyActivity extends BaseActivity implements PaymentResultListener {
     }
 
     // ===============================
-    // ❌ OLD METHOD (COMMENTED - INSECURE)
-    // ===============================
-    /*
-    @Override
-    public void onPaymentSuccess(String razorpayPaymentID) {
-        Toast.makeText(this,
-                "Payment Successful",
-                Toast.LENGTH_LONG).show();
-
-        Intent intent = new Intent(BuyActivity.this, PaidVideoListActivity.class);
-        intent.putExtra("paymentSuccess", true);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        startActivity(intent);
-        finish();
-    }
-    */
-
-    // ===============================
     // ✅ NEW SECURE FLOW
     // ===============================
     @Override
@@ -172,6 +152,12 @@ public class BuyActivity extends BaseActivity implements PaymentResultListener {
                     Toast.makeText(BuyActivity.this,
                             "Payment Verified ✅",
                             Toast.LENGTH_LONG).show();
+
+                    // 🔥 BACKEND VERIFIED → NOW MAKE PRIME
+                    SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("IS_PRIME", true);
+                    editor.apply();
 
                     Intent intent = new Intent(BuyActivity.this, PaidVideoListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

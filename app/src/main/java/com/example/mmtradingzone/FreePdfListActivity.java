@@ -3,6 +3,8 @@ package com.example.mmtradingzone;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +27,12 @@ import retrofit2.Response;
 public class FreePdfListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
+    TextView txtNoFreePdf;
     PdfAdapter adapter;
     List<FilesModel> pdfList = new ArrayList<>();
 
-    String BASE_URL = "http://18.206.151.182:8085/pdf/";
+   // String BASE_URL = "http://18.206.151.182:8085/pdf/";
+    String BASE_URL = "http://13.49.66.182:8085/pdf/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class FreePdfListActivity extends BaseActivity {
         setContentLayout(R.layout.activity_free_pdf_list);
 
        // setContentView(R.layout.activity_free_pdf_list);
-
+        txtNoFreePdf = findViewById(R.id.txtNoFreePdf);
         recyclerView = findViewById(R.id.recyclerView);
 
         // ⭐ FIX 1: LayoutManager MUST
@@ -54,9 +58,13 @@ public class FreePdfListActivity extends BaseActivity {
 
         ApiService api = ApiClient.getClient(this).create(ApiService.class);
 
-        String phone = "9555293455"; // 🔥 your login phone
 
-        Call<List<FilesModel>> call = api.getImageList("PDF", phone);
+        // 🔥 FIXED: NO HARDCODED NUMBER
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String phone = prefs.getString("phoneNumber", "");
+
+        Call<List<FilesModel>> call = api.getPdfList("PDF", phone);
+        Log.d("PDF_DEBUG", "PHONE FROM PREF: " + phone);
 
         call.enqueue(new Callback<List<FilesModel>>() {
             @Override
@@ -69,12 +77,34 @@ public class FreePdfListActivity extends BaseActivity {
                     System.out.println("TOTAL PDF: " + allList.size());
 
                     pdfList.clear();
+                    pdfList.addAll(allList);
 
-                    for (FilesModel file : allList) {
-                        if (!file.isPaid()) {  // FREE PDF
-                            pdfList.add(file);
-                        }
+                //    for (FilesModel file : allList) {
+                 //       if (!file.isPaid()) {  // FREE PDF
+                   //         pdfList.add(file);
+                     //   }
+                   // }
+
+                    // =====================================================
+                    // 🔥 ADD THIS BLOCK (EMPTY CHECK - SAME AS VIDEO)
+                    // =====================================================
+
+                    if (!pdfList.isEmpty()) {
+
+                        // ✅ SHOW LIST
+                        recyclerView.setVisibility(View.VISIBLE);
+                        txtNoFreePdf.setVisibility(View.GONE);
+
+                    } else {
+
+                        // ❌ NO DATA
+                        recyclerView.setVisibility(View.GONE);
+                        txtNoFreePdf.setVisibility(View.VISIBLE);
+
                     }
+
+                    // =====================================================
+
 
                     System.out.println("FREE PDF: " + pdfList.size());
 

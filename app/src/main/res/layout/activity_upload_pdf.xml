@@ -46,7 +46,8 @@
                 android:id="@+id/btnPickPdf"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Select PDF from Document"/>
+                android:text="Select PDF from Document"
+                android:backgroundTint="#03A9F4"/>
 
         </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.example.mmtradingzone.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.mmtradingzone.ImageViewActivity;
 import com.example.mmtradingzone.R;
-import com.example.mmtradingzone.network.ApiClient; // ⭐ NEW
-import com.example.mmtradingzone.network.ApiService; // ⭐ NEW
+import com.example.mmtradingzone.network.ApiClient;
+import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
 
 import java.util.List;
 
-import okhttp3.ResponseBody; // ⭐ NEW
-import retrofit2.Call; // ⭐ NEW
-import retrofit2.Callback; // ⭐ NEW
-import retrofit2.Response; // ⭐ NEW
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
@@ -50,16 +51,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         FilesModel image = imageList.get(position);
 
-        String imageUrl = "http://18.206.151.182:8085/img/" + image.getFileName();
+       // String imageUrl = "http://18.206.151.182:8085/img/" + image.getFileName();
+        String imageUrl = "http://13.49.66.182:8085/img/" + image.getFileName();
 
-        // 🔥 EXISTING: Glide image load (UNCHANGED)
+
+        // 🔥 EXISTING: Glide image load
         Glide.with(context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.imageView);
 
-        // 🔥 EXISTING: Title (UNCHANGED)
+        // 🔥 EXISTING: Title
         String title = image.getTitle();
 
         if (title != null && !title.isEmpty()) {
@@ -68,9 +71,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             holder.txtTitle.setText("Image " + (position + 1));
         }
 
-        // =====================================================
-        // ✅ CLICK → OPEN IMAGE (UNCHANGED)
-        // =====================================================
+        // ✅ CLICK → OPEN IMAGE
         holder.itemView.setOnClickListener(v -> {
 
             Intent intent = new Intent(context, ImageViewActivity.class);
@@ -79,9 +80,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         });
 
-        // =====================================================
+        //  ADMIN CHECK (SHOW / HIDE DELETE ICON)
+        SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String userType = prefs.getString("USER_TYPE", "");
+
+        if ("ADMIN".equalsIgnoreCase(userType)) {
+            holder.btnDelete.setVisibility(View.VISIBLE); // ✅ admin can see
+        } else {
+            holder.btnDelete.setVisibility(View.GONE); // ❌ normal user hide
+        }
+
         // ⭐ DELETE BUTTON CLICK (FINAL API INTEGRATION)
-        // =====================================================
         holder.btnDelete.setOnClickListener(v -> {
 
             int pos = holder.getBindingAdapterPosition(); // ⭐ SAFE POSITION

@@ -3,6 +3,8 @@ package com.example.mmtradingzone;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,7 @@ import retrofit2.Response;
 public class PaidPdfListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
+    TextView txtNoPdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class PaidPdfListActivity extends BaseActivity {
         setContentLayout(R.layout.activity_paid_pdf_list);
 
        // setContentView(R.layout.activity_paid_pdf_list);
-
+        txtNoPdf = findViewById(R.id.txtNoPdf);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -76,11 +79,19 @@ public class PaidPdfListActivity extends BaseActivity {
 
                 if (!paidList.isEmpty()) {
 
+                    // ✅ SHOW LIST
+                    recyclerView.setVisibility(View.VISIBLE);
+                    txtNoPdf.setVisibility(View.GONE);
+
                     recyclerView.setAdapter(
                             new PdfAdapter(PaidPdfListActivity.this, paidList)
                     );
 
                 } else {
+
+                    // ❌ NO DATA
+                    recyclerView.setVisibility(View.GONE);
+                    txtNoPdf.setVisibility(View.VISIBLE);
 
                     Toast.makeText(
                             PaidPdfListActivity.this,

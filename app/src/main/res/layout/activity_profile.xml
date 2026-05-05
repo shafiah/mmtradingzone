@@ -25,7 +25,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#4CAF50"
+                app:tint="#03A9F4"
                 android:layout_marginBottom="10dp"/>
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Free User"
-                android:textColor="#4CAF50"
+                android:textColor="#03A9F4"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"/>
 
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Edit Profile"
             android:layout_marginTop="30dp"
-            android:backgroundTint="#4CAF50"
+            android:backgroundTint="#03A9F4"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>

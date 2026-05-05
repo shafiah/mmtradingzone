@@ -84,7 +84,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("userName", apiUser.getUserName());
                     editor.putLong("userId",apiUser.getId());
                     editor.putString("phoneNumber",apiUser.getPhoneNumber());
+                    editor.putBoolean("IS_PRIME",apiUser.isPrime());
+                    editor.putString("USER_TYPE", apiUser.getUserType());
                     editor.apply();
+                    Log.d("LOGIN_DEBUG", "PHONE: " + apiUser.getPhoneNumber());
+
                     // ⭐ NEW CODE (IMPORTANT)
                    // prefs.edit()
                      //       .putLong("userId", response.body().getId())

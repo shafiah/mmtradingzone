@@ -3,6 +3,8 @@ package com.example.mmtradingzone;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +30,7 @@ import retrofit2.Response;
 public class FreeImageListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
+    TextView txtNoFreeImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class FreeImageListActivity extends BaseActivity {
 
 
         // setContentView(R.layout.activity_free_image_list);
-
+        txtNoFreeImages = findViewById(R.id.txtNoFreeImages);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -82,6 +85,9 @@ public class FreeImageListActivity extends BaseActivity {
 
                     if(!freeList.isEmpty()){
 
+                        // ✅ SHOW LIST
+                        recyclerView.setVisibility(View.VISIBLE);
+                        txtNoFreeImages.setVisibility(View.GONE);
                         recyclerView.setAdapter(
                                 new ImageAdapter(
                                         FreeImageListActivity.this,
@@ -90,6 +96,9 @@ public class FreeImageListActivity extends BaseActivity {
                         );
 
                     } else {
+
+                        recyclerView.setVisibility(View.GONE);
+                        txtNoFreeImages.setVisibility(View.VISIBLE);
 
                         Toast.makeText(
                                 FreeImageListActivity.this,

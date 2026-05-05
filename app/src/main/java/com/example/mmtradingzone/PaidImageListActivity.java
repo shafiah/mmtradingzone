@@ -2,6 +2,8 @@ package com.example.mmtradingzone;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ import retrofit2.Response;
 public class PaidImageListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
+    TextView txtNoImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class PaidImageListActivity extends BaseActivity {
         setContentLayout(R.layout.activity_paid_image_list);
 
        // setContentView(R.layout.activity_paid_image_list);
-
+        txtNoImages = findViewById(R.id.txtNoImages);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -77,6 +80,10 @@ public class PaidImageListActivity extends BaseActivity {
 
                     if(!paidList.isEmpty()){
 
+                        // ✅ SHOW LIST
+                        recyclerView.setVisibility(View.VISIBLE);
+                        txtNoImages.setVisibility(View.GONE);
+
                         recyclerView.setAdapter(
                                 new ImageAdapter(
                                         PaidImageListActivity.this,
@@ -85,6 +92,9 @@ public class PaidImageListActivity extends BaseActivity {
                         );
 
                     } else {
+                        // ❌ NO DATA
+                        recyclerView.setVisibility(View.GONE);
+                        txtNoImages.setVisibility(View.VISIBLE);
 
                         Toast.makeText(
                                 PaidImageListActivity.this,

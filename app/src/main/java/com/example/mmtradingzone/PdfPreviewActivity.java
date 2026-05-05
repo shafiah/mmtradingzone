@@ -25,9 +25,9 @@ import com.example.mmtradingzone.utils.ProgressRequestBody;
 
 import java.io.File;
 
-import okhttp3.MediaType; // ⭐ NEW ADDED
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody; // ⭐ NEW ADDED
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +41,7 @@ public class PdfPreviewActivity extends AppCompatActivity {
     TextView uploadPercentText;
     RadioButton radioFree, radioPremium;
 
-    EditText etPdfTitle; // ⭐ NEW
+    EditText etPdfTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,6 @@ public class PdfPreviewActivity extends AppCompatActivity {
 
             if (pdfUri != null) {
 
-                // ⭐ NEW: GET TITLE
                 String title = etPdfTitle.getText().toString().trim();
 
                 if (title.isEmpty()) {
@@ -79,7 +78,7 @@ public class PdfPreviewActivity extends AppCompatActivity {
                     return;
                 }
 
-                uploadPdf(pdfUri, title); // ⭐ UPDATED
+                uploadPdf(pdfUri, title);
 
             } else {
                 Toast.makeText(this, "No PDF selected", Toast.LENGTH_SHORT).show();
@@ -87,7 +86,6 @@ public class PdfPreviewActivity extends AppCompatActivity {
         });
     }
 
-    // ✅ PDF RENDER METHOD (UNCHANGED)
     private void renderPdf() {
         try {
             ParcelFileDescriptor fileDescriptor =
@@ -116,14 +114,12 @@ public class PdfPreviewActivity extends AppCompatActivity {
         }
     }
 
-    // ✅ UPDATED UPLOAD METHOD (TITLE ADDED)
     private void uploadPdf(Uri pdfUri, String title) {
 
         try {
 
             File file = FileUtils.getFile(this, pdfUri);
 
-            // ⭐ NEW CODE YAHI LAGEGA
             String originalName = file.getName();
 
             if (!originalName.toLowerCase().endsWith(".pdf")) {
@@ -153,7 +149,6 @@ public class PdfPreviewActivity extends AppCompatActivity {
                             requestBody
                     );
 
-            // ⭐ NEW: paid
             boolean isPaid = radioPremium.isChecked();
 
             RequestBody paidBody =
@@ -162,7 +157,6 @@ public class PdfPreviewActivity extends AppCompatActivity {
                             String.valueOf(isPaid)
                     );
 
-            // ⭐ NEW: title
             RequestBody titleBody =
                     RequestBody.create(
                             MediaType.parse("text/plain"),
@@ -172,7 +166,6 @@ public class PdfPreviewActivity extends AppCompatActivity {
             ApiService apiService =
                     ApiClient.getClient(this).create(ApiService.class);
 
-            // ⭐ UPDATED API
             Call<ResponseModel> call =
                     apiService.uploadPdf(body, paidBody, titleBody);
 
@@ -189,12 +182,11 @@ public class PdfPreviewActivity extends AppCompatActivity {
                         Toast.makeText(PdfPreviewActivity.this,
                                 "Upload Success",
                                 Toast.LENGTH_LONG).show();
-                        // ⭐ NEW CODE START
+
                         Intent intent = new Intent(PdfPreviewActivity.this, UploadChoiceActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
-                        finish(); // ⭐ back pe wapas preview na aaye
-                        // ⭐ NEW CODE END
+                        finish();
 
                     } else {
                         Toast.makeText(PdfPreviewActivity.this,

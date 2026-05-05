@@ -37,6 +37,15 @@
             android:padding="20dp">
 
             <!-- USERNAME -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="#555555"
+                android:layout_marginTop="15dp"/>
+
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
@@ -73,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/update_profile"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginTop="20dp"/>
 
         </LinearLayout>

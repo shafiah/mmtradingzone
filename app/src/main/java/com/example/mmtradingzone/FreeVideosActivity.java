@@ -1,13 +1,14 @@
 package com.example.mmtradingzone;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View; // ⭐ NEW IMPORT
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mmtradingzone.base.BaseActivity;
-
 
 public class FreeVideosActivity extends BaseActivity {
 
@@ -19,14 +20,9 @@ public class FreeVideosActivity extends BaseActivity {
 
         //setContentView(R.layout.activity_free_videos);
 
-       // findViewById(R.id.video1).setOnClickListener(v ->
-         //       openPlayer("http://18.206.151.182/trading_basic.mp4")
-      //  );
-
-      //  findViewById(R.id.video2).setOnClickListener(v ->
-        //        openPlayer("http://18.206.151.182/trading_intro.mp4")
-      //  );
-
+        // ===============================
+        // ⭐ EXISTING VIDEO BUTTONS
+        // ===============================
 
         findViewById(R.id.btnFreeVideos).setOnClickListener(v -> {
 
@@ -51,45 +47,79 @@ public class FreeVideosActivity extends BaseActivity {
         Button btnFreeImage = findViewById(R.id.btnFreeImages);
         Button btnPaidImage = findViewById(R.id.btnPaidImages);
 
-// 🔥 FREE IMAGE CLICK
+        // 🔥 FREE IMAGE CLICK
         btnFreeImage.setOnClickListener(v -> {
             Intent intent = new Intent(FreeVideosActivity.this, FreeImageListActivity.class);
             startActivity(intent);
         });
 
-// 🔥 PREMIUM IMAGE CLICK
+        // 🔥 PREMIUM IMAGE CLICK
         btnPaidImage.setOnClickListener(v -> {
             Intent intent = new Intent(FreeVideosActivity.this, PaidImageListActivity.class);
             startActivity(intent);
         });
 
-        // ⭐⭐⭐ NEW CODE START (PDF BUTTON HANDLING)
+        // ⭐⭐⭐ PDF BUTTON HANDLING
 
-// FREE PDF BUTTON
+        // FREE PDF BUTTON
         Button btnFreePdf = findViewById(R.id.btnFreePdf);
 
         btnFreePdf.setOnClickListener(v -> {
             Intent intent = new Intent(
                     FreeVideosActivity.this,
-                    FreePdfListActivity.class   // ⭐ NEW ACTIVITY
+                    FreePdfListActivity.class
             );
             startActivity(intent);
         });
 
-// PAID PDF BUTTON
+        // PAID PDF BUTTON
         Button btnPaidPdf = findViewById(R.id.btnPaidPdf);
 
         btnPaidPdf.setOnClickListener(v -> {
             Intent intent = new Intent(
                     FreeVideosActivity.this,
-                    PaidPdfListActivity.class   // ⭐ NEW ACTIVITY
+                    PaidPdfListActivity.class
             );
             startActivity(intent);
         });
 
-// ⭐⭐⭐ NEW CODE END
+        // =====================================================
+        // 🔥🔥 NEW CODE START (PRIME USER UI CONTROL)
+        // =====================================================
+
+        // ⭐ GET BUTTON REFERENCES
+        Button btnPaidVideos = findViewById(R.id.btnPaidVideos);
+
+        // ⭐ GET SHARED PREF
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
+        // ⭐ DEFAULT FALSE (non-prime)
+        boolean isPrime = prefs.getBoolean("IS_PRIME", false);
+
+        // ⭐ LOGIC
+        if (!isPrime) {
+
+            // ❌ NON-PRIME → HIDE PREMIUM
+            btnPaidVideos.setVisibility(View.GONE);
+            btnPaidImage.setVisibility(View.GONE);
+            btnPaidPdf.setVisibility(View.GONE);
+
+        } else {
+
+            // ✅ PRIME → SHOW ALL
+            btnPaidVideos.setVisibility(View.VISIBLE);
+            btnPaidImage.setVisibility(View.VISIBLE);
+            btnPaidPdf.setVisibility(View.VISIBLE);
+        }
+
+        // =====================================================
+        // 🔥🔥 NEW CODE END
+        // =====================================================
     }
 
+    // ===============================
+    // ⭐ EXISTING PLAYER METHOD (UNCHANGED)
+    // ===============================
     private void openPlayer(String url) {
 
         Intent intent = new Intent(this, VideoPlayerActivity.class);
@@ -97,4 +127,3 @@ public class FreeVideosActivity extends BaseActivity {
         startActivity(intent);
     }
 }
-    // ------------------- NEW METHOD: Fetch Video List -------------------

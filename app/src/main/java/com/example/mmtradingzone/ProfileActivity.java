@@ -30,8 +30,9 @@ public class ProfileActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
         String name = prefs.getString("userName", "User Name");
-        String phone = prefs.getString("phoneNumber", "Not Available");
-        boolean isPrime = prefs.getBoolean("isPrime", false);
+        String phone = prefs.getString("phoneNumber",
+                prefs.getString("PHONE","Not Available"));
+        boolean isPrime = prefs.getBoolean("IS_PRIME", false);
 
         tvName.setText(name);
         tvPhone.setText(phone);

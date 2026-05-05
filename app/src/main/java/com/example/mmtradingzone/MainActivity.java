@@ -25,6 +25,14 @@ import retrofit2.Response;
 public class MainActivity extends BaseActivity {
 
     SharedPreferences prefs;
+    MaterialCardView cardFileUpload;
+
+    // ⭐ NEW: PRIME UI
+    MaterialCardView cardPrimeBanner;
+
+    ImageView imgPrimeBanner;
+    Button btnBuyNow;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,69 +42,59 @@ public class MainActivity extends BaseActivity {
         setContentLayout(R.layout.activity_main);
         setSelectedTab(R.id.nav_home);
 
+        TextView txtUserNameTop = findViewById(R.id.txtWelcomeUser);
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String userName = prefs.getString("userName", "User");
+
+        if (txtUserNameTop != null) {
+            txtUserNameTop.setText("Welcome," + userName);
+        }
+
+        cardFileUpload = findViewById(R.id.cardFileUpload);
+
+        // ⭐ NEW: INIT VIEWS
+      //  imgPrimeBanner = findViewById(R.id.imgPrimeBanner); // 🔥 add in XML
+        cardPrimeBanner = findViewById(R.id.cardPrimeBanner);
+        btnBuyNow = findViewById(R.id.btnBuyNow);
+
+
+        // ⭐ GET USER TYPE
         prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
-        // ===============================
-        // ⭐ NEW: FREE MATERIAL CLICK
-        // ===============================
-        TextView txtFreeMaterial = findViewById(R.id.txtFreeMaterial);
+        String userType = prefs.getString("USER_TYPE", "USER");
 
-        txtFreeMaterial.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, FreeVideosActivity.class));
-        });
+        // ⭐ LOGIC
+        if (!"ADMIN".equals(userType)) {
 
-        // ===============================
-        // ⭐ EDIT PROFILE CLICK
-        // ===============================
-        TextView txtEditProfile = findViewById(R.id.txtEditProfile);
+            // ❌ HIDE FILE UPLOAD
+            cardFileUpload.setVisibility(View.GONE);
 
-        txtEditProfile.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
-        });
+        } else {
 
-        // ===============================
-        // ⭐ SETTINGS CLICK
-        // ===============================
-        TextView txtSettings = findViewById(R.id.txtSettings);
+            // ✅ SHOW
+            cardFileUpload.setVisibility(View.VISIBLE);
+        }
 
-        txtSettings.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ComingSoonActivity.class));
-        });
+        // =========================================================
+        // 🔥 NEW CODE: PRIME USER LOGIC (MOST IMPORTANT)
+        // =========================================================
+        boolean isPrime = prefs.getBoolean("IS_PRIME", false);
 
-        // ===============================
-        // ⭐ HOW TO USE APP
-        // ===============================
-        TextView txtHowToUse = findViewById(R.id.txtHowToUse);
+        if (isPrime) {
 
-        txtHowToUse.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        });
+            // ✅ PRIME USER
+            cardPrimeBanner.setVisibility(View.VISIBLE); // show banner
 
-        // ===============================
-        // ⭐ PRIVACY POLICY
-        // ===============================
-        TextView txtPrivacyPolicy = findViewById(R.id.txtPrivacyPolicy);
+            btnBuyNow.setVisibility(View.GONE); // hide buy button
 
-        txtPrivacyPolicy.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ComingSoonActivity.class));
-        });
+        } else {
 
-        // ===============================
-        // ⭐ LOGOUT
-        // ===============================
-        Button btnLogout = findViewById(R.id.btnLogout);
+            // ❌ FREE USER
+            cardPrimeBanner.setVisibility(View.GONE); // hide banner
+            btnBuyNow.setVisibility(View.VISIBLE); // show buy button
+        }
+        // =========================================================
 
-        btnLogout.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear();
-            editor.apply();
-
-            Intent intent = new Intent(MainActivity.this, AuthChoiceActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
 
         // ===============================
         // ⭐ BUY NOW
@@ -110,7 +108,7 @@ public class MainActivity extends BaseActivity {
         // ===============================
         // ⭐ FILE UPLOAD CARD
         // ===============================
-        MaterialCardView cardFileUpload = findViewById(R.id.cardFileUpload);
+        cardFileUpload = findViewById(R.id.cardFileUpload);
 
         cardFileUpload.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, UploadChoiceActivity.class));
@@ -119,7 +117,8 @@ public class MainActivity extends BaseActivity {
         // ===============================
         // ⭐ ALL COURSE CLICK
         // ===============================
-        findViewById(R.id.layoutAllCourse).setOnClickListener(v -> {
+        MaterialCardView layoutAllCourse = findViewById(R.id.layoutAllCourse);
+        layoutAllCourse.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, FreeVideosActivity.class));
         });
 
@@ -131,15 +130,15 @@ public class MainActivity extends BaseActivity {
         ImageView ivTelegram = findViewById(R.id.ivBottomTelegram);
 
         ivYoutube.setOnClickListener(v ->
-                openLink("https://youtube.com/@muzammilpathan-e4g?si=FgblTSgwn2JL6G8I")
+                openLink("https://youtube.com/@albarakahinstituteoftrading?si=nwYf7GMk7la-NEgT")
         );
 
         ivTelegram.setOnClickListener(v ->
-                openLink("https://t.me/MuftiMuzammil")
+                openLink("https://t.me/brakahinstitute")
         );
 
         ivInstagram.setOnClickListener(v ->
-                openLink("https://www.instagram.com/")
+                openLink("https://www.instagram.com/brakahinstitute?igsh=MWZndmRlZjVqZjIweA==")
         );
     }
 
@@ -155,6 +154,19 @@ public class MainActivity extends BaseActivity {
         if (txtName != null) {
             txtName.setText(userName);
         }
+        // =========================================
+        // 🔥 NEW FIX: PRIME UI REFRESH
+        // =========================================
+        boolean isPrime = prefs.getBoolean("IS_PRIME", false);
+
+        if (isPrime) {
+            cardPrimeBanner.setVisibility(View.VISIBLE);
+            btnBuyNow.setVisibility(View.GONE);
+        } else {
+            cardPrimeBanner.setVisibility(View.GONE);
+            btnBuyNow.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void checkSession() {

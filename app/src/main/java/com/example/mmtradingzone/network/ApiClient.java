@@ -12,7 +12,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://18.206.151.182:8085/";
+   // private static final String BASE_URL = "http://18.206.151.182:8085/";
+    private static final String BASE_URL = "http://13.49.66.182:8085/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient(Context context) {

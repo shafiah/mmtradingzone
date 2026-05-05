@@ -3,6 +3,7 @@ package com.example.mmtradingzone.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.R;
 import com.example.mmtradingzone.VideoPlayerActivity;
-import com.example.mmtradingzone.network.ApiClient; // ⭐ NEW
-import com.example.mmtradingzone.network.ApiService; // ⭐ NEW
+import com.example.mmtradingzone.network.ApiClient;
+import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
 
 import java.util.List;
 
-import okhttp3.ResponseBody; // ⭐ NEW
-import retrofit2.Call; // ⭐ NEW
-import retrofit2.Callback; // ⭐ NEW
-import retrofit2.Response; // ⭐ NEW
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
@@ -51,7 +52,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
         FilesModel video = videoList.get(position);
 
-        // ⭐ TITLE (UNCHANGED)
+        // ⭐ TITLE
         if (video.getTitle() != null && !video.getTitle().isEmpty()) {
             holder.txtVideoName.setText(video.getTitle());
         } else {
@@ -59,11 +60,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         }
 
         // 🔥 VIDEO URL
-        String videoUrl = "http://18.206.151.182:8085/vid/" + video.getFileName();
+       // String videoUrl = "http://18.206.151.182:8085/vid/" + video.getFileName();
+        String videoUrl = "http://13.49.66.182:8085/vid/" + video.getFileName();
 
-        // ================================
-        // ✅ 1. ITEM CLICK → VIDEO PLAY (UNCHANGED)
-        // ================================
+        // ✅ 1. ITEM CLICK → VIDEO PLAY
         holder.itemView.setOnClickListener(v -> {
 
             Intent intent = new Intent(context, VideoPlayerActivity.class);
@@ -71,10 +71,17 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             context.startActivity(intent);
 
         });
+        //  ADMIN CHECK (SHOW / HIDE DELETE ICON)
+        SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String userType = prefs.getString("USER_TYPE", "");
 
-        // ================================
+        if ("ADMIN".equalsIgnoreCase(userType)) {
+            holder.btnDelete.setVisibility(View.VISIBLE); // ✅ admin can see
+        } else {
+            holder.btnDelete.setVisibility(View.GONE); // ❌ normal user hide
+        }
+
         // ⭐ 2. DELETE CLICK → FINAL API
-        // ================================
         holder.btnDelete.setOnClickListener(v -> {
 
             v.setClickable(true);
@@ -152,9 +159,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         return videoList.size();
     }
 
-    // ================================
     // ✅ VIEW HOLDER (PERFORMANCE FIX)
-    // ================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtVideoName;

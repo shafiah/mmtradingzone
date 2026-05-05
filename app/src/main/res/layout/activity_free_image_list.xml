@@ -18,6 +18,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#4B3F72"
+        android:layout_gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"/>
 
@@ -31,6 +32,16 @@
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
         android:backgroundTint="#FFFFFF">
+
+        <TextView
+            android:id="@+id/txtNoFreeImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Free Images available"
+            android:textSize="18sp"
+            android:textColor="#555555"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
 
         <!-- ✅ RECYCLER VIEW -->
         <androidx.recyclerview.widget.RecyclerView

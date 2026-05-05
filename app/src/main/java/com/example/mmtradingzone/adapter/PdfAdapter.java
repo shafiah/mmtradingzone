@@ -3,6 +3,7 @@ package com.example.mmtradingzone.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.example.mmtradingzone.network.FilesModel;
 
 import java.util.List;
 
-import okhttp3.ResponseBody; // ⭐ NEW (fix for JSON error)
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,13 +58,12 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
             holder.txtPdfName.setText("PDF " + (position + 1));
         }
 
-        String pdfUrl = "http://18.206.151.182:8085/pdf/" + pdf.getFileName();
+       // String pdfUrl = "http://18.206.151.182:8085/pdf/" + pdf.getFileName();
+        String pdfUrl = "http://13.49.66.182:8085/pdf/" + pdf.getFileName();
 
         Log.d("PDF_DEBUG", "PDF URL: " + pdfUrl);
 
-        // =====================================================
         // ✅ OPEN PDF
-        // =====================================================
         holder.itemView.setOnClickListener(v -> {
 
             Intent intent = new Intent(context, PdfViewActivity.class);
@@ -73,9 +73,17 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
             context.startActivity(intent);
         });
 
-        // =====================================================
+        // ADMIN CHECK (SHOW / HIDE DELETE ICON)
+        SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        String userType = prefs.getString("USER_TYPE", "");
+
+        if ("ADMIN".equalsIgnoreCase(userType)) {
+            holder.btnDelete.setVisibility(View.VISIBLE); // ✅ admin can see
+        } else {
+            holder.btnDelete.setVisibility(View.GONE); // ❌ normal user hide
+        }
+
         // ⭐ DELETE BUTTON (FINAL FIX)
-        // =====================================================
         holder.btnDelete.setOnClickListener(v -> {
 
             int pos = holder.getBindingAdapterPosition();
@@ -116,7 +124,7 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
 
                                     // ⭐ FINAL FIX: stable refresh
                                     pdfList.remove(pos);
-                                    notifyDataSetChanged(); // ⭐ IMPORTANT
+                                    notifyDataSetChanged();
 
                                 } else {
                                     Toast.makeText(context,

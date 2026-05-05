@@ -1,11 +1,12 @@
 package com.example.mmtradingzone.base;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
-import android.view.Menu; // ⭐ NEW ADD
-import android.view.MenuItem; // ⭐ NEW ADD
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.example.mmtradingzone.BuyActivity;
 import com.example.mmtradingzone.FreeVideosActivity;
 import com.example.mmtradingzone.MainActivity;
 import com.example.mmtradingzone.NotificationActivity;
+import com.example.mmtradingzone.PrivacyPolicyActivity;
 import com.example.mmtradingzone.ProfileActivity;
 import com.example.mmtradingzone.R;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -42,6 +44,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // 🔒 SECURITY (UNCHANGED)
         // getWindow().setFlags(
@@ -80,16 +84,9 @@ public class BaseActivity extends AppCompatActivity {
         contentFrame = findViewById(R.id.contentFrame);
         bottomNav = findViewById(R.id.bottomNav);
 
-
-        // ===============================
-        // 🔥 NEW: DRAWER MENU SHIFTED HERE
-        // ===============================
-
-        // ===============================
-// 🔥 DRAWER CLICK FINAL FIX
-// ===============================
-
-// USER NAME
+        //  DRAWER MENU SHIFTED HERE
+        //  DRAWER CLICK FINAL FIX
+        //  USER NAME
         TextView txtName = findViewById(R.id.txtName);
         if (txtName != null) {
             SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -97,13 +94,13 @@ public class BaseActivity extends AppCompatActivity {
             txtName.setText(userName);
         }
 
-// 🔥 IMPORTANT: CORRECT IDS USE
+        // 🔥 IMPORTANT: CORRECT IDS USE
         TextView txtFreeMaterial = findViewById(R.id.txtFreeMaterial);
         TextView txtEditProfile = findViewById(R.id.txtEditProfile);
         TextView txtSettings = findViewById(R.id.txtSettings);
         TextView txtPrivacyPolicy = findViewById(R.id.txtPrivacyPolicy);
 
-// FREE MATERIAL
+        // FREE MATERIAL
         if (txtFreeMaterial != null) {
             txtFreeMaterial.setOnClickListener(v -> {
                 startActivity(new Intent(this, FreeVideosActivity.class));
@@ -111,7 +108,7 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
 
-// EDIT PROFILE
+        // EDIT PROFILE
         if (txtEditProfile != null) {
             txtEditProfile.setOnClickListener(v -> {
                 startActivity(new Intent(this, EditProfileActivity.class));
@@ -119,7 +116,7 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
 
-// SETTINGS
+        // SETTINGS
         if (txtSettings != null) {
             txtSettings.setOnClickListener(v -> {
                 Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
@@ -127,24 +124,23 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
 
-// PRIVACY
+        // PRIVACY
         if (txtPrivacyPolicy != null) {
             txtPrivacyPolicy.setOnClickListener(v -> {
-                Toast.makeText(this, "Privacy Policy", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, PrivacyPolicyActivity.class));
+               // Toast.makeText(this, "Privacy Policy", Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawer(GravityCompat.START);
             });
         }
 
-        // ===============================
-// ⭐ LOGOUT (FROM MAINACTIVITY - SHIFTED)
-// ===============================
 
+        // ⭐ LOGOUT
         Button btnLogout = findViewById(R.id.btnLogout);
 
         if (btnLogout != null) {
             btnLogout.setOnClickListener(v -> {
 
-                // 🔥 SAME LOGIC AS MAINACTIVITY
+                //  SAME LOGIC
                 getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                         .edit()
                         .clear()
@@ -160,12 +156,7 @@ public class BaseActivity extends AppCompatActivity {
                 }
             });
         }
-
-        // ===============================
-        // BOTTOM NAV (UNCHANGED)
-        // ===============================
-
-
+        // BOTTOM NAV
         // ⭐ NAVIGATION CLICK
         bottomNav.setOnItemSelectedListener(item -> {
 
@@ -221,20 +212,13 @@ public class BaseActivity extends AppCompatActivity {
             return false;
         });
     }
-
-    // ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
-    // 🔥🔥🔥 FINAL FIX (NEW ADD - DO NOT DELETE)
     // ⭐ MENU LOAD FOR ALL PAGES
-    // ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_bar_menu, menu);
         return true;
     }
-
-    // ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
-    // 🔔 CLICK HANDLE (GLOBAL)
-    // ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+    //  CLICK HANDLE (GLOBAL)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -246,12 +230,12 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // ⭐ CHILD LAYOUT SET (UNCHANGED)
+    // ⭐ CHILD LAYOUT SET
     protected void setContentLayout(int layoutId) {
         LayoutInflater.from(this).inflate(layoutId, contentFrame, true);
     }
 
-    // ⭐🔥 MAIN FIX: SELECTED TAB CONTROL (UNCHANGED)
+    // ⭐ SELECTED TAB CONTROL
     protected void setSelectedTab(int itemId) {
         if (bottomNav != null) {
             bottomNav.setSelectedItemId(itemId);

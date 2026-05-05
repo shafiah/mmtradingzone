@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to ABITI"
+        android:text="LEARNING HUB"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="#333333"
@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Free Videos"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginBottom="16dp"/>
 
             <!-- Paid Videos Button -->
@@ -76,7 +77,8 @@
                 android:id="@+id/btnPaidVideos"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Premium Videos"/>
+                android:text="Premium Videos"
+                android:backgroundTint="#03A9F4"/>
 
             <!-- FREE IMAGES BUTTON -->
             <Button
@@ -84,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Free Images"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#03A9F4"/>
 
             <!-- PAID IMAGES BUTTON -->
             <Button
@@ -92,6 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Premium Images"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginTop="10dp"/>
 
             <!-- FREE PDF BUTTON -->
@@ -100,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Free Pdf"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginTop="10dp"/>
 
             <!-- PAID PDF BUTTON -->
@@ -108,6 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Premium Pdf"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginTop="10dp"/>
 
         </LinearLayout>

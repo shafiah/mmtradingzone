@@ -46,7 +46,8 @@
                 android:id="@+id/btnPickImage"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Select Image from Gallery"/>
+                android:text="Select Image from Gallery"
+                android:backgroundTint="#03A9F4"/>
 
         </LinearLayout>
 

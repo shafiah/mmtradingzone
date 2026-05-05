@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Upload Video"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginBottom="16dp"/>
 
             <Button
@@ -75,13 +76,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Upload Image"
+                android:backgroundTint="#03A9F4"
                 android:layout_marginBottom="16dp"/>
 
             <Button
                 android:id="@+id/btnUploadPdf"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Upload PDF"/>
+                android:text="Upload PDF"
+                android:backgroundTint="#03A9F4"/>
 
         </LinearLayout>
 

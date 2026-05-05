@@ -47,7 +47,8 @@
                 android:id="@+id/btnPickVideo"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Select Video from Gallery"/>
+                android:text="Select Video from Gallery"
+                android:backgroundTint="#03A9F4"/>
 
             <!-- Selected Video Text -->
 

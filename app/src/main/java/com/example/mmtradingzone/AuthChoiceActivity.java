@@ -16,9 +16,13 @@ public class AuthChoiceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
 
-        if (isLoggedIn) {
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+        String phone = prefs.getString("phoneNumber", "");
+
+// ✅ FIXED CONDITION
+        if (isLoggedIn && phone != null && !phone.isEmpty()) {
+
             Intent intent = new Intent(AuthChoiceActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

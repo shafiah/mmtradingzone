@@ -7,10 +7,11 @@ public class LoginResponse {
     private Long id;
     @SerializedName("userName")
     private String userName;
-    @SerializedName("mobile")
+    @SerializedName("phoneNumber")
     private String phoneNumber;
     private String deviceId;
     private boolean prime;
+    private String userType;
 
     private Long loginVersion;
 
@@ -26,6 +27,14 @@ public class LoginResponse {
 
     public boolean isPrime() {
         return prime;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public Long getLoginVersion() {

@@ -2,6 +2,8 @@ package com.example.mmtradingzone;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import retrofit2.Response;
 public class FreeVideoListActivity extends BaseActivity {
 
     RecyclerView recyclerView;
+    TextView txtNoFreeVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class FreeVideoListActivity extends BaseActivity {
 
        // setContentView(R.layout.activity_free_video_list);
 
+        txtNoFreeVideo = findViewById(R.id.txtNoFreeVideos);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,7 +66,10 @@ public class FreeVideoListActivity extends BaseActivity {
 
                 List<FilesModel> videoList = response.body();
 
-                if(videoList!=null){
+                if (videoList != null && !videoList.isEmpty()){
+                    // ✅ SHOW LIST
+                    recyclerView.setVisibility(View.VISIBLE);
+                    txtNoFreeVideo.setVisibility(View.GONE);
 
                     recyclerView.setAdapter(
                             new VideoAdapter(
@@ -70,7 +77,13 @@ public class FreeVideoListActivity extends BaseActivity {
                                     videoList
                             )
                     );
+                } else {
+
+                    // ❌ NO DATA
+                    recyclerView.setVisibility(View.GONE);
+                    txtNoFreeVideo.setVisibility(View.VISIBLE);
                 }
+
             }
 
             @Override
