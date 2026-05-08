@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.mmtradingzone.base.BaseActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
@@ -34,7 +32,6 @@ public class BuyActivity extends BaseActivity implements PaymentResultListener {
         setContentLayout(R.layout.activity_buy);
         setSelectedTab(R.id.nav_store);
 
-        // setContentView(R.layout.activity_buy);
 
         Checkout.preload(getApplicationContext());
 
@@ -87,13 +84,11 @@ public class BuyActivity extends BaseActivity implements PaymentResultListener {
         });
     }
 
-    // ===============================
     // ⭐ UPDATED PAYMENT METHOD
-    // ===============================
     private void startPayment(String orderId, Map<String, Object> result) {
 
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_SMOMZAdWKVM1nh");
+        checkout.setKeyID("rzp_test_SmQGzfvFCry4hX");
 
         try {
             JSONObject options = new JSONObject();
@@ -187,5 +182,33 @@ public class BuyActivity extends BaseActivity implements PaymentResultListener {
         Toast.makeText(this,
                 "Payment Failed",
                 Toast.LENGTH_LONG).show();
+        sendFailedPaymentToBackend();
+    }
+
+    private void sendFailedPaymentToBackend() {
+
+        ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
+
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String phoneNumber = prefs.getString("PHONE", "");
+
+        // paymentId nahi hota fail me → null bhej rahe
+        Call<String> call = apiService.verifyPayment(
+                "FAILED_" + System.currentTimeMillis(), // dummy paymentId
+                currentOrderId,
+                phoneNumber
+        );
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                // optional log
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                // optional log
+            }
+        });
     }
 }

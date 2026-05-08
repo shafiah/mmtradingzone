@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -12,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.mmtradingzone"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -44,7 +45,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
-    implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.3")
+    implementation("com.github.alamin5g:Alamin5G-PDF-Viewer:1.0.16")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation ("androidx.room:room-runtime:2.6.1")
@@ -61,4 +62,5 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
+
 

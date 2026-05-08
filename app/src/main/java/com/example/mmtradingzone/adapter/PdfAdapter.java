@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmtradingzone.R;
 import com.example.mmtradingzone.PdfViewActivity;
+import com.example.mmtradingzone.WebViewPdfActivity;
 import com.example.mmtradingzone.network.ApiClient;
 import com.example.mmtradingzone.network.ApiService;
 import com.example.mmtradingzone.network.FilesModel;
@@ -71,6 +72,12 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             context.startActivity(intent);
+            // # New WebView PDF
+         //   Intent intent = new Intent(context, WebViewPdfActivity.class);
+         //   intent.putExtra("pdf_url", pdfUrl);
+         //   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+         //   context.startActivity(intent);
         });
 
         // ADMIN CHECK (SHOW / HIDE DELETE ICON)

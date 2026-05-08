@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.barteksc.pdfviewer.PDFView;
+import com.alamin5g.pdf.PDFView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,11 +23,12 @@ public class PdfViewActivity extends AppCompatActivity {
 
     PDFView pdfView;
 
-    // ⭐ NEW: Loader UI
+    // ❌ NOT NEEDED (commented)
+    // WebView webView;
+
     ProgressBar progressBar;
     TextView loadingText;
 
-    // ⭐ Background thread
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
@@ -37,33 +38,35 @@ public class PdfViewActivity extends AppCompatActivity {
 
         pdfView = findViewById(R.id.pdfView);
 
-        // ⭐ NEW
         progressBar = findViewById(R.id.progressBar);
         loadingText = findViewById(R.id.loadingText);
 
         String pdfUrl = getIntent().getStringExtra("pdf_url");
 
-        if (pdfUrl != null) {
-            showLoader(); // ⭐ NEW
+        if (pdfUrl != null && !pdfUrl.isEmpty()) {
+            showLoader();
             downloadAndDisplayPdf(pdfUrl);
         } else {
             Toast.makeText(this, "Invalid PDF URL", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // ⭐ SHOW LOADER
+    // ===============================
+    // LOADER
+    // ===============================
     private void showLoader() {
         progressBar.setVisibility(View.VISIBLE);
         loadingText.setVisibility(View.VISIBLE);
     }
 
-    // ⭐ HIDE LOADER
     private void hideLoader() {
         progressBar.setVisibility(View.GONE);
         loadingText.setVisibility(View.GONE);
     }
 
-    // ⭐ MAIN METHOD
+    // ===============================
+    // DOWNLOAD + DISPLAY
+    // ===============================
     private void downloadAndDisplayPdf(String pdfUrl) {
 
         executorService.execute(() -> {
@@ -72,21 +75,43 @@ public class PdfViewActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
 
-                hideLoader(); // ⭐ NEW
-
                 if (file != null && file.exists()) {
 
                     pdfView.fromFile(file)
                             .enableSwipe(true)
                             .swipeHorizontal(false)
-                            .enableDoubletap(true)
+                            .enableDoubletap(true)   // ✅ double tap zoom
                             .defaultPage(0)
                             .enableAnnotationRendering(true)
                             .enableAntialiasing(true)
                             .spacing(10)
+
+                            // ⭐ ZOOM FIX (IMPORTANT)
+                            .fitEachPage(true)
+                            .autoSpacing(true)
+                            .pageSnap(true)
+                            .pageFling(true)
+
+                            // ⭐ EVENTS
+                            .onLoad(nbPages -> {
+                                hideLoader();
+                                Log.d("PDF", "Loaded pages: " + nbPages);
+                            })
+                            .onError(t -> {
+                                hideLoader();
+                                Toast.makeText(PdfViewActivity.this,
+                                        "PDF Error: " + t.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            })
                             .load();
 
+                    // ⭐ EXTRA ZOOM CONTROL (VERY IMPORTANT)
+                    pdfView.setMinZoom(1f);
+                    pdfView.setMidZoom(2.5f);
+                    pdfView.setMaxZoom(6f);
+
                 } else {
+                    hideLoader();
                     Toast.makeText(PdfViewActivity.this,
                             "PDF load failed",
                             Toast.LENGTH_LONG).show();
@@ -95,7 +120,9 @@ public class PdfViewActivity extends AppCompatActivity {
         });
     }
 
-    // ⭐ FAST DOWNLOAD METHOD
+    // ===============================
+    // DOWNLOAD METHOD
+    // ===============================
     private File downloadPdf(String pdfUrl) {
 
         HttpURLConnection connection = null;
@@ -114,13 +141,12 @@ public class PdfViewActivity extends AppCompatActivity {
 
             InputStream input = connection.getInputStream();
 
-            // ⭐ UNIQUE FILE NAME (no overwrite)
             File file = new File(getCacheDir(),
                     "pdf_" + System.currentTimeMillis() + ".pdf");
 
             FileOutputStream output = new FileOutputStream(file);
 
-            byte[] buffer = new byte[8192]; // ⭐ FAST BUFFER
+            byte[] buffer = new byte[8192];
             int count;
 
             while ((count = input.read(buffer)) != -1) {
