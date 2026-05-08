@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Abiti Trading Investment</string>
+    <string name="app_name">ABITI Trading Investment</string>
     <string name="notifications">Notifications</string>
     <string name="what_do_you_want">What do you want to learn?</string>
     <string name="what_looking_for">What are you looking for?</string>
@@ -19,8 +19,8 @@
     <string name="basics_video">Basics Video</string>
 
     <string name="profile">Profile</string>
-    <string name="user_name">Kaif</string>
-    <string name="org_code">Organization Code QVOOYD</string>
+    <string name="user_name">User Name</string>
+    <string name="org_code">Organization Code</string>
     <string name="share_facebook">Share on Facebook</string>
     <string name="logout">Logout</string>
 

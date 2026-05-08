@@ -19,6 +19,9 @@
         android:theme="@style/Theme.MMTradingZone"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".WebViewPdfActivity"
             android:exported="false" />
         <activity
@@ -48,12 +51,14 @@
         <activity
             android:name=".FreeImageListActivity"
             android:exported="false" />
-        <activity
+        <!--
+ <activity
             android:name=".PaidImageList"
             android:exported="false" />
         <activity
             android:name=".FreeImageList"
             android:exported="false" />
+        -->
         <activity
             android:name=".PaidVideoListActivity"
             android:exported="false" />
